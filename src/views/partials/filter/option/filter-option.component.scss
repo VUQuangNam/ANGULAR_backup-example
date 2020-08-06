@@ -1,0 +1,88 @@
+    .c-group {
+        // padding: 10px 10px;
+        margin-bottom: 2px;
+        border-radius: 2px;
+        position: relative;
+        background-color: #ffffff;
+        -webkit-box-shadow: 0 5px 15px rgba(0,0,0,.1);
+        box-shadow: 0 5px 15px rgba(0,0,0,.1);
+
+        // header style
+        &__header {
+            display: flex;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            height: 26px;
+            padding: 20px 10px;
+            background: #16335B;
+            color: #ffffff;
+
+            &--left {
+                width: 60%;
+                text-align: left;
+                margin-top: 5px;
+
+                h6 {
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+            }
+
+            &--right {
+                width: 40%;
+                display: flex;
+                justify-content: flex-end;
+                
+                .header-icon {
+                    height: 24px;
+                    width: 24px;
+                    border-radius: 50%;
+                    border: none;
+                    line-height: 24px;
+                    -ms-box-orient: horizontal;
+                    display: -webkit-box;
+                    display: -ms-flexbox;
+                    display: -moz-flex;
+                    display: flex;
+                    -webkit-box-align: center;
+                    -ms-flex-align: center;
+                    align-items: center;
+                    -webkit-box-pack: center;
+                    -ms-flex-pack: center;
+                    justify-content: center;
+                    background-color: transparent;
+
+                    i {
+                        font-size: 14px;
+                        color: #e5e5e5;
+                    }
+
+                    &:hover {
+                        outline: 0;
+                        // background-color: #e5e5e5;
+                        -webkit-transition: background-color .2s ease-out;
+                        transition: background-color .2s ease-out;
+                        -webkit-box-shadow: none;
+                        box-shadow: none;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+
+
+        // content style
+        &__content {
+            margin-top: 10px;
+            padding: 10px 10px;
+
+            &--scroll {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+        }
+    }

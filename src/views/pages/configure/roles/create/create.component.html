@@ -1,0 +1,188 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <form
+            class="form"
+            (ngSubmit)="onCreate()"
+            autocomplete="off"
+        >
+            <section class="c-right__header">
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <a
+                            routerLink="/setting/roles"
+                            class="back text-dark"
+                        >
+                            &lt; Quản lý chức vụ
+                        </a>
+                        <h4>Thêm mới chức vụ</h4>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-secondary mr-2"
+                            type="reset"
+                        >
+                            Bỏ qua
+                        </button>
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-success"
+                        >
+                            Lưu Lại
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="c-right__content">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6 style="font-size: 20px; font-weight: bold;">
+                                    Chi tiết chức vụ
+                                </h6>
+                                <small class="text-muted">
+                                    thông tin chi tiết của vai trò để phục vụ việc quản lý sau này.
+                                </small>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label-md text-left">
+                                        Mã chức vụ:
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input
+                                            name="id"
+                                            type="text"
+                                            class="form-control "
+                                            [(ngModel)]="model.id"
+                                            placeholder="Nhập mã chức vụ"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label-md text-left">
+                                        Tên chức vụ:
+                                    </label>
+                                    <div class="col-md-9">
+                                        <input
+                                            name="name"
+                                            type="text"
+                                            class="form-control "
+                                            [(ngModel)]="model.name"
+                                            placeholder="Nhập tên chức vụ"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label-md text-left">
+                                        Ghi chú:
+                                    </label>
+                                    <div class="col-md-10">
+                                        <textarea
+                                            name="note"
+                                            type="text"
+                                            class="form-control "
+                                            [(ngModel)]="model.note"
+                                            placeholder="Nhập ghi chú"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 border-top pt-4">
+                                <h6 style="font-size: 20px; font-weight: bold;">
+                                    Phân quyền chi tiết
+                                </h6>
+                                <small class="text-muted">
+                                    Cho phép phân quyền hạn chi tiết của chức vụ đối với dữ liệu của hệ thống.
+                                </small>
+                            </div>
+                            <div class="col-md-12 mt-4 p-0">
+                                <div
+                                    class="table-responsive-lg"
+                                    style="min-height: 400px;"
+                                >
+                                    <table class="table table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center">
+                                                    Chức năng
+                                                </th>
+                                                <th class="text-center">
+                                                    Truy cập
+                                                </th>
+                                                <th class="text-center">
+                                                    Tạo mới
+                                                </th>
+                                                <th class="text-center">
+                                                    Cập nhật
+                                                </th>
+                                                <th class="text-center">
+                                                    Xóa
+                                                </th>
+                                                <th class="text-center">
+                                                    Nhập file
+                                                </th>
+                                                <th class="text-center">
+                                                    Xuất file
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let group of permissions">
+                                            <tr class="bg-light">
+                                                <td>
+                                                    + {{ group.name }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <label class="c-checkbox c-checkbox--success">
+                                                        <input
+                                                            type="checkbox"
+                                                            [name]="group?.id"
+                                                            [value]="group?.id"
+                                                            [checked]="group?.checked"
+                                                            (change)="onChangeCheckboxParent(group?.id)"
+                                                        />
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr *ngFor="let menu of group.menus">
+                                                <td class="pl-5"> - {{ menu.name }} </td>
+                                                <td
+                                                    class="text-center"
+                                                    *ngFor="let permission of menu.permissions"
+                                                >
+                                                    <label class="c-checkbox c-checkbox--success">
+                                                        <input
+                                                            type="checkbox"
+                                                            [name]="permission?.id"
+                                                            [value]="permission?.id"
+                                                            [checked]="permission?.checked"
+                                                            (change)="onChangeCheckboxChild(group?.id, permission?.id)"
+                                                        />
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

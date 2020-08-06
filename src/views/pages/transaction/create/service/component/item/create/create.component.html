@@ -1,0 +1,140 @@
+<div class="dunnio-portlet">
+    <!--begin Title-->
+    <div class="dunnio-portlet__head dunnio-portlet__head--border">
+        <div class="dunnio-portlet__head-label">
+            <h3 class="dunnio-portlet__head-title">
+                Thêm sản phẩm bảo hành sửa chữa
+            </h3>
+        </div>
+    </div>
+    <!--end-->
+
+    <!-- begin Form -->
+    <form
+        class="dunnio-form dunnio-padding-15 validated"
+        id="form-create-item-warranty-repair"
+        (ngSubmit)="onCreateItemWarranties()"
+        #f="ngForm"
+        autocomplete="off"
+    >
+        <div class="row">
+            <div class="col-6 dunnio-portlet__body">
+                <div class="form-group pb-3">
+                    <label>Loại Sản Phẩm:</label>
+                    <select
+                        class="form-control"
+                        name="category_id"
+                        [(ngModel)]="model.category_id"
+                        (change)="onChangeCategory()"
+                    >
+                        <option
+                            *ngFor="let category of categories"
+                            [value]="category?.id"
+                        >
+                            {{ category?.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group pb-3">
+                    <label>Mã sản phẩm:</label>
+                    <ng-select
+                        [items]="products"
+                        (search)="onSearchProducts($event.term)"
+                        bindLabel="id"
+                        bindValue="id"
+                        [(ngModel)]="model.idproduct"
+                        placeholder="Nhập mã sản phẩm"
+                        name="id"
+                        [loading]="loading"
+                    >
+                        <ng-template
+                            ng-option-tmp
+                            let-item="item"
+                            let-index="index"
+                        >
+                            SP :&nbsp;{{item?.id}}-{{item?.name}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="form-group pb-3">
+                    <label> Ghi chú sản phẩm: </label>
+                    <textarea
+                        class="form-control"
+                        rows="2"
+                        placeholder="ghi chú.."
+                        name="note.system"
+                        [(ngModel)]="model.note.system"
+                        #note.system="ngModel"
+                    ></textarea>
+                </div>
+            </div>
+            <div class="col-6 dunnio-portlet__body dunnio-scroll-data-item">
+                <div class=" form-group dunnio-margin-b-0">
+                    <div class="dunnio-checkbox-list ">
+                        <div
+                            *ngFor="let x of model.serviceDesignSub"
+                            class="dunnio-margin-b-20"
+                        >
+                            <label class="dunnio-checkbox dunnio-checkbox--success">
+                                <input
+                                    (click)="handleChangeDesign($event.target.value)"
+                                    [checked]="x?.checked"
+                                    type="checkbox"
+                                    [value]="x?.id"
+                                    [name]="x?.name"
+                                />
+                                <div class="row">
+                                    <div class="col-6">{{x?.name?.vi}}</div>
+                                    <div class="col-6">Giá dịch vụ: {{x?.price | number}}</div>
+                                </div>
+                                <span></span>
+                            </label>
+                            <input
+                                [disabled]="!x.checked"
+                                type="text"
+                                class="form-control"
+                                placeholder="Nhập lưu ý"
+                                (input)="onChangeTextWarranty($event.target.value,x.id)"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div
+                class="dunnio-portlet__foot pb-0"
+                style="border-top: 1px solid #C4C4C4"
+            >
+                <div class="dunnio-form__actions dunnio-align-right">
+                    <button
+                        type="button"
+                        (click)="onResetForm()"
+                        style="width:150px"
+                        class="btn btn-default dunnio-margin-r-10"
+                    >
+                        <img
+                            src="./assets/media/icons/refresh-light.svg"
+                            class="mr-1"
+                        />
+                        Làm Mới
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                        [disabled]="loading"
+                        style="width:150px"
+                        [ngClass]="{'dunnio-spinner dunnio-spinner--right dunnio-spinner--md dunnio-spinner--light': loading}"
+                    >
+                        <img
+                            src="./assets/media/icons/save-light.svg"
+                            class="mr-1"
+                        >
+                        <span class="dunnio-menu__link-text">Lưu lại</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--end-->
+</div>

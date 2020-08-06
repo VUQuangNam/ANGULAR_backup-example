@@ -1,0 +1,70 @@
+<div class="dunnio-portlet">
+    <div class="dunnio-portlet__body dunnio-padding-0">
+        <!--begin::Section-->
+        <div class="dunnio-section">
+            <div class="dunnio-section__content">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>STT</th>
+                            <th>Mã Sản Phẩm</th>
+                            <th>Tên Sản Phẩm</th>
+                            <th style="width: 150px;">Số Lượng</th>
+                            <th>Đơn Giá</th>
+                            <th>Tiền Dịch Vụ</th>
+                            <th>Giảm Giá</th>
+                            <th>Thành Tiền</th>
+                            <th>#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr [hidden]="data?.products?.length">
+                            <td
+                                colspan="9"
+                                class="dunnio-align-center"
+                            >
+                                <b>Chưa có sản phẩm nào được chọn!</b>
+                            </td>
+                        </tr>
+                        <tr *ngFor="let item of data?.products; let index = index">
+                            <th scope="row">{{ index + 1 }}</th>
+                            <td>
+                                <a
+                                    href="javascript:;"
+                                    (click)="onUpdateItem(item?.id)"
+                                >
+                                    {{ item?.id }}
+                                </a>
+                            </td>
+                            <td>{{ item?.name }}</td>
+                            <td>
+                                <div class="form-group">
+                                    <input
+                                        class=" form-control form-input-price"
+                                        (input)="onChangeQuantity(item.id, $event.target.value)"
+                                        type="number"
+                                        name="total_quantity"
+                                        [value]="item?.total_quantity"
+                                    >
+                                </div>
+                            </td>
+                            <td>{{(item?.price |number) || 0}}đ</td>
+                            <td>{{(item?.total_service_price|number) || 0}}đ</td>
+                            <td>{{(item?.total_discount|number) || 0}}đ</td>
+                            <td>
+                                {{ (item?.total_price_discount|number) || 0}}đ
+                            </td>
+                            <td>
+                                <img
+                                    src="./assets/media/icons/delete.svg"
+                                    (click)="onRemoveItem(item?.id)"
+                                >
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--end::Section-->
+    </div>
+</div>

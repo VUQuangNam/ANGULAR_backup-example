@@ -1,0 +1,380 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <a
+                        routerLink="/setting/products"
+                        class="back text-dark"
+                    >
+                        &lt; Quản lý sản phẩm
+                    </a>
+                    <h4>Thêm mới sản phẩm bán sẵn</h4>
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <form
+                class="form row"
+                (ngSubmit)="onUpdate()"
+                autocomplete="off"
+            >
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông tin cơ bản
+                            </h6>
+                            <div class="form-group row m-0">
+                                <label class="col-md-2 col-form-label-md text-left">
+                                    Tên sản phẩm*:
+                                </label>
+                                <input
+                                    name="name"
+                                    type="text"
+                                    class="form-control col-md-10"
+                                    [(ngModel)]="model.name"
+                                />
+                            </div>
+
+                            <div class="form-group row m-0">
+                                <label class="col-md-2 col-form-label-md text-left">
+                                    Mã SP (SKU)*:
+                                </label>
+                                <input
+                                    name="id"
+                                    type="text"
+                                    class="form-control col-md-4"
+                                    [(ngModel)]="model.id"
+                                    disabled="disabled"
+                                />
+
+                                <label class="col-md-2 pl-5 col-form-label-md text-left">
+                                    Thương hiệu:
+                                </label>
+                                <select
+                                    type="text"
+                                    class="form-control col-md-4"
+                                    name="brand"
+                                    [(ngModel)]="model.properties.brand"
+                                >
+                                    <option value="dunnio">
+                                        Dunnio
+                                    </option>
+                                    <option value="duynguyen">
+                                        Duy Nguyễn
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group row m-0">
+                                <label class="col-md-2 col-form-label-md text-left">
+                                    Đơn vị*:
+                                </label>
+                                <select
+                                    type="text"
+                                    class="form-control col-md-4"
+                                    name="unit"
+                                    [(ngModel)]="model.properties.unit"
+                                >
+                                    <option
+                                        [value]="unit?.name"
+                                        *ngFor="let unit of units"
+                                    >
+                                        {{ unit?.name }}
+                                    </option>
+                                </select>
+
+                                <label class="col-md-2 pl-5 col-form-label-md text-left">
+                                    Giới tính:
+                                </label>
+                                <select
+                                    type="text"
+                                    class="form-control col-md-4"
+                                    name="gender"
+                                    [(ngModel)]="model.properties.gender"
+                                >
+                                    <option value="male">
+                                        Nam
+                                    </option>
+                                    <option value="female">
+                                        Nữ
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group row m-0">
+                                <label class="col-md-2 col-form-label-md text-left">
+                                    Giá sản phẩm*:
+                                </label>
+                                <input
+                                    name="price"
+                                    type="text"
+                                    class="form-control col-md-4"
+                                    [(ngModel)]="model.price"
+                                />
+
+                                <label class="col-md-2 pl-5 col-form-label-md text-left">
+                                    Danh mục:
+                                </label>
+                                <select
+                                    type="text"
+                                    class="form-control col-md-4"
+                                    name="category_id"
+                                    [(ngModel)]="model.category_id"
+                                >
+                                    <option
+                                        [value]="cate?.id"
+                                        *ngFor="let cate of categories"
+                                    >
+                                        {{ cate?.name }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group row m-0">
+                                <label class="col-md-12 col-form-label-md text-left">
+                                    Thêm mô tả:
+                                </label>
+                                <ckeditor
+                                    name="description"
+                                    class="col-md-12 p-0"
+                                    [(ngModel)]="model.description"
+                                ></ckeditor>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Chi tiết vải
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group row m-0">
+                                        <label class="col-md-2 col-form-label-md text-left">
+                                            Mã vải:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="fabric_id"
+                                            class="form-control col-md-10"
+                                            [(ngModel)]="model.fabric.id"
+                                        />
+                                    </div>
+                                    <div class="form-group row m-0">
+                                        <label class="col-md-2 col-form-label-md text-left">
+                                            Tên vải:
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="fabric_name"
+                                            class="form-control col-md-10"
+                                            [(ngModel)]="model.fabric.name"
+                                        />
+                                    </div>
+                                    <div class="form-group row m-0">
+                                        <label class="col-md-2 col-form-label-md text-left">
+                                            Mô tả:
+                                        </label>
+                                        <textarea
+                                            type="text"
+                                            name="fabric_content"
+                                            class="form-control col-md-10"
+                                            [(ngModel)]="model.fabric.content"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <app-image-single
+                                        width="100%"
+                                        height="165px"
+                                        category="products"
+                                        [button]="false"
+                                        [image]="model.fabric.image"
+                                        (callback)="handleFabricImageCallback($event)"
+                                    ></app-image-single>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Ảnh sản phẩm
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <app-image-single
+                                        width="100%"
+                                        height="165px"
+                                        category="products"
+                                        [button]="false"
+                                        [image]="model?.images[0]"
+                                        (callback)="handleImageCallback($event, 0)"
+                                    ></app-image-single>
+                                </div>
+                                <div class="col-md-3">
+                                    <app-image-single
+                                        width="100%"
+                                        height="165px"
+                                        category="products"
+                                        [button]="false"
+                                        [image]="model?.images[1]"
+                                        (callback)="handleImageCallback($event, 1)"
+                                    ></app-image-single>
+                                </div>
+                                <div class="col-md-3">
+                                    <app-image-single
+                                        width="100%"
+                                        height="165px"
+                                        category="products"
+                                        [button]="false"
+                                        [image]="model?.images[2]"
+                                        (callback)="handleImageCallback($event, 2)"
+                                    ></app-image-single>
+                                </div>
+                                <div class="col-md-3">
+                                    <app-image-single
+                                        width="100%"
+                                        height="165px"
+                                        category="products"
+                                        [button]="false"
+                                        [image]="model?.images[3]"
+                                        (callback)="handleImageCallback($event, 3)"
+                                    ></app-image-single>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="card">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Sản phẩm liên quan
+                            </h6>
+
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label-md">
+                                    Chọn sản phẩm:
+                                </label>
+                                <div class="col-md-10">
+                                    <ng-select
+                                        name="search"
+                                        bindValue="id"
+                                        bindLabel="name"
+                                        [items]="[]"
+                                        [loading]="loading"
+                                        (search)="onSearchProduct($event)"
+                                    >
+                                        <ng-template
+                                            ng-option-tmp
+                                            let-item="item"
+                                            let-index="index"
+                                        >
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <b>Tên:</b> {{item?.name}}
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>Điện thoại:</b> {{item?.phone}}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group row m-0">
+                                <h6
+                                    class="col-md-10 mt-2"
+                                    style="font-size: 20px; font-weight: bold;"
+                                >
+                                    Cài đặt trên website
+                                </h6>
+                                <div class="c-checkbox-list col-md-2  mt-2">
+                                    <label class="c-checkbox c-checkbox--success">
+                                        <input
+                                            type="checkbox"
+                                            name="is_public"
+                                            [(ngModel)]="model.is_public"
+                                        />
+                                        Hiển thị trên website
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                SEO-Marketing
+                            </h6>
+
+                            <div class="form-group">
+                                <label>Tiêu đề </label>
+                                <input
+                                    type="text"
+                                    name="og_title"
+                                    class="form-control"
+                                    placeholder="nhập tiêu đề..."
+                                    [(ngModel)]="model.metadata.og_title"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Link sản phẩm </label>
+                                <input
+                                    type="text"
+                                    name="og_url"
+                                    class="form-control"
+                                    placeholder="nhập link sản phẩm.."
+                                    [(ngModel)]="model.metadata.og_url"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label>Mô tả ngắn </label>
+                                <input
+                                    type="text"
+                                    name="og_description"
+                                    class="form-control"
+                                    placeholder="mô tả ngắn sản phẩm.."
+                                    [(ngModel)]="model.metadata.og_description"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <app-design-style
+                        [categoryId]="model.category_id"
+                        [genderId]="model.properties.gender"
+                        *ngIf="model.properties.gender && model.category_id"
+                    >
+                    </app-design-style>
+                </div>
+
+                <div
+                    class="col-md-12 text-right"
+                    style="border-top: 1px solid #707070; padding: 20px 0;"
+                >
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-info"
+                    >
+                        Cập nhật
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

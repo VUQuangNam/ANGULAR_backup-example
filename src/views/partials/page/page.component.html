@@ -1,0 +1,66 @@
+<div class="c-page__info c-group__wrapper">
+    <div
+        class="c-page-action"
+        (click)="onChangePage(prev)"
+        [title]="prev"
+    >
+        <i class="fa fa-angle-left"></i>
+    </div>
+    <div class="c-page__value">
+        <input
+            name="page"
+            type="text"
+            class="form-control"
+            [value]="pageCurrent"
+            (change)="onChangePage($event.target.value)"
+        >
+    </div>
+    <div
+        class="c-page-action"
+        (click)="onChangePage(next)"
+        [title]="next"
+    >
+        <i class="fa fa-angle-right"></i>
+    </div>
+    <div
+        class="dropdown dropdown-inline pl-1"
+        data-toggle="c-tooltip"
+        data-placement="left"
+    >
+        <span
+            class="btn-page__limit"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+        >
+            <i class="fa fa-eye"></i>
+        </span>
+        <div
+            class="dropdown-menu dropdown-menu-right"
+            style="min-width: 50px; text-align: right;"
+        >
+            <!--begin::Nav-->
+            <ul class="c-nav">
+                <li
+                    *ngFor="let limit of [20, 30, 50, 100, 200, 500]"
+                    class="c-nav__item"
+                    (click)="onChangeLimit(limit)"
+                    [class.active]="pageLimit == limit"
+                >
+                    <a
+                        href="javascript:void(0)"
+                        class="c-nav__link"
+                    >
+                        <span
+                            class="c-nav__link-text"
+                            [class.active]="pageLimit == limit"
+                        >
+                            {{limit}}
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <!--end::Nav-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <a
+                        routerLink="/inventory/imports"
+                        class="back text-dark"
+                    >
+                        &lt; Nhập kho
+                    </a>
+                    <h4>Tạo đơn nhập kho</h4>
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <form
+                class="form row"
+                autocomplete="off"
+                (ngSubmit)="onCreate()"
+            >
+                <div class="col-md-8">
+                    <app-search-item
+                        [items]="model?.items || []"
+                        [storeId]="model?.store?.id"
+                        [quantity]="model?.total_quantity"
+                        (callback)="handleSeachChange($event)"
+                    >
+                    </app-search-item>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông tin nguồn nhập
+                            </h6>
+                            <div class="form-group row mr-0">
+                                <label class="col-md-4 mt-2">Họ tên:</label>
+                                <input
+                                    type="text"
+                                    name="source_name"
+                                    class="form-control col-md-8"
+                                    placeholder="nhập tên nguồn nhập"
+                                    [(ngModel)]="model.source.name"
+                                />
+                            </div>
+                            <div class="form-group row mr-0">
+                                <label class="col-md-4 mt-2">Điện thoại:</label>
+                                <input
+                                    type="text"
+                                    name="source_phone"
+                                    class="form-control col-md-8"
+                                    placeholder="nhập số điện thoại nguồn nhập"
+                                    [(ngModel)]="model.source.phone"
+                                />
+                            </div>
+                            <div class="form-group row mr-0">
+                                <label class="col-md-4 mt-2">Địa chỉ:</label>
+                                <input
+                                    type="text"
+                                    name="source_address"
+                                    class="form-control col-md-8"
+                                    placeholder="nhập địa chỉ nguồn nhập"
+                                    [(ngModel)]="model.source.address"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông tin kho nhập
+                            </h6>
+                            <div class="form-group">
+                                <select
+                                    name="store"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="kho nhập"
+                                    [(ngModel)]="model.store"
+                                >
+                                    <option
+                                        [ngValue]="store"
+                                        *ngFor="let store of stores"
+                                    >
+                                        {{store?.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông ghi chú
+                            </h6>
+                            <div class="form-group">
+                                <textarea
+                                    name="note"
+                                    class="form-control"
+                                    placeholder="nhập ghi chú"
+                                    [(ngModel)]="model.note"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- begin:: form foot -->
+                <div
+                    class="col-md-12 text-right"
+                    style="border-top: 1px solid #707070; padding: 20px 0;"
+                >
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-success"
+                    >
+                        Thêm mới
+                    </button>
+                </div>
+                <!-- end:: form foot -->
+            </form>
+        </section>
+    </div>
+</div>

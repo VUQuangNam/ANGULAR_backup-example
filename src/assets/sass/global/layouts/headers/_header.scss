@@ -1,0 +1,157 @@
+.c-header {
+    background-color: c-base-color(light, 2);
+
+    &__top {
+        .nav-link-cus {
+            font-size: 1rem;
+            color: c-base-color(dark, 3);
+            padding: 9px 10px;
+            margin-left: 5px;
+
+            i {
+                font-size: 1.2rem;
+                margin-left: 4px;
+            }
+        }
+
+        .icon-bell {
+            text-align: center;
+
+            i {
+                font-size: 1.2rem;
+                background-color: c-base-color(light, 1);
+                border-radius: 50%;
+                width: 2rem;
+                height: 2rem;
+                line-height: 2rem;
+                margin-bottom: 5px;
+            }
+        }
+
+        .dropdown-menu-cus {
+            padding: .8rem;
+            background-color: c-base-color(light, 1);
+            left: -14px;
+            top: 35px;
+            min-width: 116%;
+            position: relative;
+
+            &:before {
+                content: "";
+                position: absolute;
+                top: -8px;
+                right: 15px;
+                display: block;
+                width: 0;
+                height: 0;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-bottom: 7px solid c-base-color(light, 1);
+            }
+        }
+
+        .dropdown-item-cus {
+            border-bottom: 1px solid #000;
+            padding: 5px 0;
+            font-size: 14px;
+            margin-bottom: 5px;
+
+            &:hover {
+                background-color: c-base-color(light, 1);
+            }
+
+            .text {
+                display: inline-block;
+                width: 80%;
+            }
+        }
+
+    }
+
+    &__bottom {
+        background-color: c-base-color(dark, 1);
+
+        .menu {
+            margin: 0;
+            padding: 0;
+
+            &__list {
+                display: inline-block;
+                position: relative;
+                padding: 8px 20px;
+                color: c-base-color(light, 2);
+
+                &:hover {
+                    background-color: c-base-color(dark, 1);
+
+                    .drop-menu {
+                        display: block;
+                    }
+                }
+
+                .drop-menu {
+                    display: none;
+                    position: absolute;
+                    left: 0;
+                    top: 100%;
+                    background-color: c-base-color(dark, 1);
+                    min-width: 280px;
+                    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+                    z-index: 1;
+                }
+
+                .drop-list {
+                    padding-left: 0;
+                }
+
+                .drop-item {
+                    display: block;
+                    color: c-base-color(light, 2);
+                    padding: 12px;
+
+                    &:hover {
+                        background-color: c-base-color(dark, 2);
+                    }
+
+                    a {
+                        text-decoration: none;
+                        color: c-base-color(light, 2);
+                        display: inline-block;
+                        position: relative;
+                        padding-left: .8rem;
+                        font-size: 14px;
+
+                        .dot {
+                            position: absolute;
+                            top: 50%;
+                            left: 2px;
+                            width: 6px;
+                            height: 6px;
+                            border-radius: 50%;
+                            display: inline-block;
+                            transform: translate(-50%, -50%);
+                            background-color: c-base-color(light, 2);
+
+                        }
+                    }
+
+                    i {
+                        font-size: 6px;
+                    }
+                }
+            }
+
+            &__link {
+                color: c-base-color(light, 2);
+                font-size: 14px;
+                text-decoration: none;
+
+                img {
+                    width: 22px;
+                    margin-right: 2px;
+                    margin-bottom: 2px;
+                }
+            }
+        }
+    }
+}

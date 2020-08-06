@@ -1,0 +1,70 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background: #cccccc;">
+                        </div>
+                        <div
+                            class="ml-2 w-75 text-nowrap"
+                            style="text-overflow: ellipsis; overflow: hidden;"
+                        >
+                            <span style="font-size: 20px; font-weight: 600;">
+                                {{ model?.name }}
+                            </span>
+                            <br />
+                            <span>
+                                {{ model?.rank_id || 'chưa có'}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 text-right">
+                    <label style="margin-right: 20px; border-right: 1px solid #707070;">
+                        <div style="padding-right: 20px; font-size: 18px;">Tổng tiền mua hàng</div>
+                        <div style="padding-right: 20px;"> {{ model?.total_price | number }} </div>
+                    </label>
+                    <label style="margin-right: 20px; border-right: 1px solid #707070;">
+                        <div style="padding-right: 20px; font-size: 18px;">Tổng điểm tích lũy</div>
+                        <div style="padding-right: 20px;"> {{ model?.total_point | number }} </div>
+                    </label>
+                    <a
+                        class="btn btn-sm btn-danger mr-2 mb-4"
+                        routerLink="/customers/{{model.id}}"
+                    >
+                        Thông tin
+                    </a>
+                    <a
+                        class="btn btn-sm btn-light mr-2 mb-4"
+                        routerLink="/customers/{{model.id}}"
+                        [queryParams]="{tab: 'orders'}"
+                    >
+                        Đơn hàng
+                    </a>
+                    <a
+                        class="btn btn-sm btn-light mb-4"
+                        routerLink="/customers/{{model.id}}"
+                        [queryParams]="{tab: 'metrics'}"
+                    >
+                        Số đo
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <tab-customer-detail
+                [model]="model"
+                *ngIf="component === 1"
+            >
+            </tab-customer-detail>
+
+            <tab-customer-order *ngIf="component === 2">
+            </tab-customer-order>
+
+            <tab-customer-metric *ngIf="component === 3">
+            </tab-customer-metric>
+        </section>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="modal-header">
+    <h5 class="modal-title">Lưu ý cơ thể: {{ metric.name.vi }}</h5>
+    <button
+        type="button"
+        class="close"
+        (click)="onClose()"
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form
+    class="validated"
+    (ngSubmit)="onCreate()"
+    autocomplete="off"
+>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <label class="col-lg-2 col-form-label-md text-left">
+                        Nhập số đo mới:
+                    </label>
+                    <div class="col-lg-6">
+                        <input
+                            type="text"
+                            name="value"
+                            class="form-control"
+                            [(ngModel)]="model.value"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="width: 150px;">Gía trị</th>
+                            <th style="width: 200px;">Ngày thêm</th>
+                            <th style="width: 200px;">Người thêm</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let value of metric.values">
+                            <td scope="row">
+                                {{ value.value }}
+                            </td>
+                            <td> {{ value.created_at | date: 'dd/MM/yyyy'}} </td>
+                            <td> {{ value.created_by.name }} </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="submit"
+            class="btn btn-sm btn-info"
+        >
+            Cập nhật
+        </button>
+    </div>
+</form>

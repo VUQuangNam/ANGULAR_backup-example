@@ -1,0 +1,18 @@
+// 1: Mixins
+@import "mixins";
+
+// 2: Functions
+@import 'functions';
+
+// 3: Frameworks
+@import "frameworks/include";
+
+// 4: Components
+@import "components/include";
+
+// 5: Layout includes
+@import "layouts/include";
+
+
+// 7: General
+@import "generics/include";

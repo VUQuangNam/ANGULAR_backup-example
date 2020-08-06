@@ -1,0 +1,33 @@
+<div
+    class="form-file"
+    [ngStyle]="{width: width, height: height}"
+>
+    <div class="form-file__thumbnail">
+        <img
+            class="image-thumbnail"
+            [src]="image"
+            [title]="category"
+            *ngIf="image"
+        />
+        <input
+            type="file"
+            accept="image/*"
+            (change)="onUpload($event)"
+            [ngStyle]="{width: width, height: height}"
+            *ngIf="!button"
+        />
+    </div>
+    <label
+        *ngIf="button"
+        class="btn btn-secondary"
+        style="padding: 0.2rem 1rem;"
+    >
+        <input
+            type="file"
+            accept="image/*"
+            style="width: 0; opacity: 0;"
+            (change)="onUpload($event)"
+        />
+        Chọn ảnh
+    </label>
+</div>

@@ -1,0 +1,199 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <a
+                        routerLink="/inventory/imports"
+                        class="back text-dark"
+                    >
+                        &lt; Nhập kho
+                    </a>
+                    <div class="d-flex">
+                        <h4 class="mr-3">Mã phiếu: {{ model?.id }}</h4>
+                        <span
+                            class="alert alert--sm alert-warning"
+                            *ngIf="model?.status === statuses.CHECKING"
+                        >{{ model?.status_name }}</span>
+                        <span
+                            class="alert alert--sm alert-success"
+                            *ngIf="model?.status === statuses.CONFIRMED"
+                        >{{ model?.status_name }}</span>
+                        <span
+                            class="alert alert--sm alert-danger"
+                            *ngIf="model?.status === statuses.CANCELLED"
+                        >{{ model?.status_name }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <form
+                class="form row"
+                autocomplete="off"
+                (ngSubmit)="onUpdate()"
+            >
+                <div class="col-md-8">
+                    <app-search-item
+                        [isView]="true"
+                        [items]="model?.items || []"
+                        [quantity]="model?.total_quantity"
+                    >
+                    </app-search-item>
+
+                    <div
+                        class="card card--border"
+                        *ngIf="model?.status === statuses.CHECKING"
+                    >
+                        <div class="card-body row">
+                            <div class="col-md-8 font-weight-bold">
+                                Nhập hàng
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <label class="c-checkbox c-checkbox--success">
+                                    <input
+                                        type="checkbox"
+                                        (change)="onConfirm()"
+                                    />
+                                    <span></span>
+                                    Nhập hàng vào kho
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông tin nguồn nhập
+                            </h6>
+                            <div class="form-group row mr-0">
+                                <label class="col-md-4 mt-2">Họ tên:</label>
+                                <input
+                                    type="text"
+                                    name="source_name"
+                                    class="form-control col-md-8"
+                                    placeholder="nhập tên nguồn nhập"
+                                    [(ngModel)]="model.source.name"
+                                    disabled
+                                />
+                            </div>
+                            <div class="form-group row mr-0">
+                                <label class="col-md-4 mt-2">Điện thoại:</label>
+                                <input
+                                    type="text"
+                                    name="source_phone"
+                                    class="form-control col-md-8"
+                                    placeholder="nhập số điện thoại nguồn nhập"
+                                    [(ngModel)]="model.source.phone"
+                                    disabled
+                                />
+                            </div>
+                            <div class="form-group row mr-0">
+                                <label class="col-md-4 mt-2">Địa chỉ:</label>
+                                <input
+                                    type="text"
+                                    name="source_address"
+                                    class="form-control col-md-8"
+                                    placeholder="nhập địa chỉ nguồn nhập"
+                                    [(ngModel)]="model.source.address"
+                                    disabled
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông tin kho nhập
+                            </h6>
+                            <div class="form-group">
+                                <select
+                                    type="text"
+                                    class="form-control"
+                                    disabled
+                                >
+                                    <option>
+                                        {{model?.store?.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông ghi chú
+                            </h6>
+                            <div class="form-group">
+                                <textarea
+                                    name="note"
+                                    class="form-control"
+                                    placeholder="nhập ghi chú"
+                                    [(ngModel)]="model.note"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- begin:: form foot -->
+                <div
+                    class="col-md-12 text-right"
+                    style="border-top: 1px solid #707070; padding: 20px 0;"
+                >
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-print mr-2"
+                        (click)="onPrint()"
+                    >
+                        In phiếu
+                    </button>
+                    <button
+                        type="button"
+                        [outsideClick]="true"
+                        [popover]="popTemplate"
+                        class="btn btn-sm btn-danger mr-2"
+                        popoverTitle="Lí do hủy phiếu nhập hàng"
+                        *ngIf="model.status === statuses.CHECKING"
+                    >
+                        <ng-template
+                            #popTemplate
+                            style="height: 250px;"
+                        >
+                            <div class="form-group">
+                                <textarea
+                                    name="reason"
+                                    class="form-control"
+                                    [(ngModel)]="model.reason"
+                                ></textarea>
+                            </div>
+                            <div class="form-group text-right">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-success mr-2"
+                                    (click)="onCancel()"
+                                >
+                                    Xác nhận
+                                </button>
+                            </div>
+                        </ng-template>
+                        Hủy phiếu
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-info"
+                    >
+                        Cập nhật
+                    </button>
+                </div>
+                <!-- end:: form foot -->
+            </form>
+        </section>
+    </div>
+</div>

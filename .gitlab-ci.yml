@@ -1,0 +1,37 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - build
+  - deploy
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+  KUBECONFIG: /etc/deploy/config
+  NAMESPACE: sv-production
+  APP_NAME: sv-frontend-erp
+
+build:
+  stage: build
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+    - docker pull $IMAGE_TAG-builder || echo "Building builder from scratch"
+    - docker pull $IMAGE_TAG || echo "Building runtime from scratch"
+    - >
+      docker build
+      --target=builder 
+      --cache-from $IMAGE_TAG-builder 
+      -t $IMAGE_TAG-builder .
+    - >
+      docker build
+      --cache-from $IMAGE_TAG 
+      --cache-from $IMAGE_TAG-builder
+      --build-arg GIT_COMMIT_TAG="$CI_COMMIT_SHA $(TZ=':Asia/Ho_Chi_Minh' date)"
+      -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG-builder
+    - docker push $IMAGE_TAG
+  only:
+    - dev
+    # - master

@@ -1,0 +1,20 @@
+<div class="form-upload">
+    <div class="row">
+        <div class="col-md-2 mb-4" *ngFor="let item of images; let $index = index">
+            <div class="form-file-md">
+                <div class="form-file__thumbnail">
+                    <img class="image-thumbnail" [src]="item?.content" [title]="category" *ngIf="item?.content" />
+                </div>
+                <label class="form-file__remove" *ngIf="item?.content" (click)="onRemoveImage($index)">
+                    <i class="fa fa-trash-alt"></i>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2 text-center">
+        <label class="btn btn-success">
+            <input type="file" accept="image/*" multiple style="width: 0; opacity: 0;" (change)="onUploads($event)" />
+            Chọn hoặc kéo thả ảnh theo thứ tự chapter vào đây!
+        </label>
+    </div>
+</div>

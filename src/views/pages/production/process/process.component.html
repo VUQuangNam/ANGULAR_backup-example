@@ -1,0 +1,307 @@
+<div class="c-warpper">
+    <div class="c-warpper__left">
+        <app-filter-layout
+            uri="process"
+            [filters]="filters"
+        >
+        </app-filter-layout>
+    </div>
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>Giai đoạn sản xuất</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button
+                        class="btn btn-sm btn-danger mr-2"
+                        (click)="onCompleteItemProcess()"
+                    >
+                        Hoàn thành
+                    </button>
+                    <div
+                        dropdown
+                        [insideClick]="true"
+                        class="btn-group"
+                    >
+                        <button
+                            class="btn btn-sm btn-danger dropdown-toggle"
+                            dropdownToggle
+                        >
+                            <img
+                                class="mr-1"
+                                src="./assets/media/icons/th-light.svg"
+                            >
+                        </button>
+                        <div
+                            role="menu"
+                            style="width: 350px;"
+                            class="dropdown-menu dropdown-menu-right"
+                            *dropdownMenu
+                        >
+                            <div class="c-checkbox-list p-2">
+                                <div class="row">
+                                    <div
+                                        class="col-md-6"
+                                        *ngFor="let col of collums"
+                                    >
+                                        <label class="c-checkbox c-checkbox--success">
+                                            <input
+                                                type="checkbox"
+                                                [name]="col.id"
+                                                [checked]="col.active"
+                                                (change)="onChangeCollum(col.id)"
+                                            />
+                                            {{ col?.name }}
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end:: collum dropdown-->
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__filter">
+            <div class="filter--left">
+                <app-date-filter-layout></app-date-filter-layout>
+            </div>
+            <div class="filter--right">
+                <app-page-layout></app-page-layout>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <ngx-datatable
+                class="c-datatable"
+                selectionType="checkbox"
+                (select)="onRowSelected($event.selected)"
+                [summaryPosition]="'top'"
+                [summaryRow]="false"
+                [columnMode]="'force'"
+                [virtualization]="false"
+                [headerHeight]="50"
+                [scrollbarV]="true"
+                [scrollbarH]="true"
+                [selected]="selected"
+                [rowHeight]="40"
+                [rows]="products"
+            >
+                <!-- begin:: checkbox collum -->
+                <ngx-datatable-column
+                    [width]="30"
+                    [sortable]="false"
+                    [canAutoResize]="false"
+                    [draggable]="false"
+                >
+                    <ng-template
+                        ngx-datatable-header-template
+                        let-allRowsSelected="allRowsSelected"
+                        let-selectFn="selectFn"
+                        let-value="value"
+                    >
+                        <input
+                            type="checkbox"
+                            [checked]="allRowsSelected"
+                            (change)="selectFn(!allRowsSelected)"
+                        />
+                    </ng-template>
+                    <ng-template
+                        ngx-datatable-cell-template
+                        let-value="value"
+                        let-isSelected="isSelected"
+                        let-onCheckboxChangeFn="onCheckboxChangeFn"
+                    >
+                        <input
+                            type="checkbox"
+                            [checked]="isSelected"
+                            (change)="onCheckboxChangeFn($event)"
+                        />
+                    </ng-template>
+                </ngx-datatable-column>
+                <!-- end:: checkbox collum -->
+
+                <ngx-datatable-column
+                    *ngFor="let col of dataCollums"
+                    [summaryFunc]="col?.summaryFunc || null"
+                    [width]="col?.width"
+                    [name]="col.name"
+                    [prop]="col.id"
+                >
+                    <ng-template
+                        ngx-datatable-cell-template
+                        let-value="value"
+                        let-row="row"
+                    >
+                        <span *ngIf="col.type === 'modal'">
+                            <a
+                                href="javascript:void(0)"
+                                (click)="openModal(row)"
+                            >
+                                {{ value }}
+                            </a>
+                        </span>
+
+                        <span *ngIf="col.type === 'link'">
+                            <div *ngIf="value === 'Tổng'"> {{ value }}</div>
+                            <a
+                                *ngIf="value !== 'Tổng'"
+                                routerLink="/{{col.to}}/{{row.id}}"
+                            >
+                                {{ value }}
+                            </a>
+                        </span>
+
+                        <span *ngIf="col.type === 'object'">
+                            {{ row[col.id][col.index] }}
+                        </span>
+
+                        <span *ngIf="col.type === 'number'">
+                            {{ row[col.id] | number }}
+                        </span>
+
+                        <span *ngIf="col.type === 'text'">
+                            {{ row[col.id] }}
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <!-- begin:: base collum -->
+            </ngx-datatable>
+        </section>
+    </div>
+</div>
+<div
+    class="modal fade"
+    id="dunnio_select_store_ksc2"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+>
+    <div
+        class="modal-dialog modal-xs"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-body dunnio-padding-0">
+                <div class="dunnio-portlet">
+                    <!--begin Title-->
+                    <div class="dunnio-portlet__head dunnio-portlet__head--border">
+                        <div class="dunnio-portlet__head-label">
+                            <h3 class="dunnio-portlet__head-title">
+                                Chọn kho lưu trữ sản phẩm
+                            </h3>
+                        </div>
+                    </div>
+                    <!--end-->
+                    <!-- begin Form -->
+                    <form class="dunnio-form">
+                        <div class=" dunnio-portlet__body">
+                            <select
+                                class="form-control"
+                                [(ngModel)]="itemActive.location"
+                                name="location"
+                            >
+                                <option
+                                    disabled
+                                    value=""
+                                >
+                                    Chọn kho lưu sản phẩm
+                                </option>
+                                <option
+                                    *ngFor="let store of stores"
+                                    [value]="store.id"
+                                >
+                                    {{store.name}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="dunnio-portlet__foot">
+                                <div class="dunnio-form__actions dunnio-align-right">
+                                    <button
+                                        type="button"
+                                        class="btn btn-success"
+                                        style="width:150px"
+                                        (click)="onCompleteItemProcess()"
+                                        data-dismiss="modal"
+                                    >
+                                        <span class="dunnio-menu__link-text">Xác nhận</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    class="modal fade"
+    id="dunnio_select_status_storage"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+>
+    <div
+        class="modal-dialog modal-xs"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-body dunnio-padding-0">
+                <div class="dunnio-portlet">
+                    <div class="dunnio-portlet__head">
+                        <div class="dunnio-portlet__head-label">
+                            <h4 class="dunnio-portlet__head-title">
+                                Chọn giai đoạn sản xuất
+                            </h4>
+                        </div>
+                    </div>
+                    <form class="dunnio-form">
+                        <div class="dunnio-portlet__body">
+                            <select
+                                class="form-control"
+                                [(ngModel)]="itemActive.status"
+                                name="status"
+                            >
+                                <option
+                                    value="back"
+                                    disabled
+                                >
+                                    Chọn giai đoạn sản xuất
+                                </option>
+                                <option value="pending"> Chờ sản xuất </option>
+                                <option value="cutting"> Đang cắt </option>
+                                <option value="preparing"> Chuẩn bị may </option>
+                                <option value="sewing"> Đang may </option>
+                                <option value="kcs_one"> KCS1 </option>
+                                <option value="completing"> Hoàn thiện</option>
+                                <option value="kcs_two"> KCS2 </option>
+                            </select>
+                        </div>
+                        <div
+                            class="col-md-12"
+                            style="text-align: right;"
+                        >
+                            <button
+                                type="button"
+                                class="btn btn-success"
+                                style="width:150px"
+                                (click)="onCompleteItemProcess()"
+                                data-dismiss="modal"
+                            >
+                                <span class="dunnio-menu__link-text">Xác nhận</span>
+                            </button>
+                        </div>
+                    </form>
+                    <!--end-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,420 @@
+<div class="modal-nav">
+    <ul
+        class="nav nav-tabs row m-0"
+        id="myTab"
+        role="tablist"
+        style="background-color: #E6E6E6;"
+    >
+        <li class="nav-item col-6 p-0 dunnio-align-center">
+            <a
+                class="nav-link active dunnio-portlet__head-title"
+                id="create-item-tailor"
+                data-toggle="tab"
+                style="color: black;"
+                href="#form-create-item-tailor"
+                role="tab"
+            >
+                <h4> Thiết Kế Sản Phẩm May Đo </h4>
+            </a>
+        </li>
+        <li class="nav-item col-6 p-0 dunnio-align-center">
+            <a
+                class="nav-link dunnio-portlet__head-title"
+                id="create-notebody"
+                data-toggle="tab"
+                href="#form-create-notebody"
+                role="tab"
+                style="color: black;"
+            >
+                <h4> Thông tin số đo </h4>
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="modal-body">
+    <form
+        class="tab-content"
+        id="myTabContent"
+        (ngSubmit)="onCreateItem()"
+        #f="ngForm"
+        autocomplete="off"
+    >
+        <form
+            class="dunnio-form tab-pane fade show active"
+            id="form-create-item-tailor"
+        >
+            <div class="dunnio-portlet__body dunnio-scroll-data-item">
+                <div class="row m-0">
+                    <!-- begin:: detail item -->
+                    <div class="col-md-4">
+                        <div class="dunnio-section">
+                            <h6 class="dunnio-section__title">Thông Tin Cơ Bản</h6>
+                            <div class="form-group row">
+                                <label class="col-4 pt-2"> Loại Sản Phẩm: </label>
+                                <div class="col-8">
+                                    <select
+                                        class="form-control"
+                                        name="categories"
+                                        (change)="onChangeCategory($event.target.value)"
+                                    >
+                                        <option
+                                            *ngFor="let category of categories"
+                                            [value]="category?.id"
+                                        >
+                                            {{ category?.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row pt-3">
+                                <label class="col-4 pt-2"> Loại mã vải: </label>
+                                <div class="col-8">
+                                    <ng-select
+                                        [items]="fabrics"
+                                        bindLabel="fullText"
+                                        name="fabric"
+                                        [(ngModel)]="model.fabric"
+                                        placeholder="tìm kiếm.."
+                                        [loading]="loading"
+                                        (search)="onSearchFabric($event.term)"
+                                    >
+                                        <ng-template
+                                            ng-label-tmp
+                                            let-item="item"
+                                        >
+                                            <div *ngIf="model?.fabric?.id">
+                                                Mã vải: <b>{{item.id}}</b>
+                                            </div>
+                                            <div *ngIf="!model.fabric">
+                                                Tìm kiếm
+                                            </div>
+                                        </ng-template>
+                                        <ng-template
+                                            ng-label-tmp
+                                            ng-option-tmp
+                                            let-item="item"
+                                        >
+                                            <div
+                                                class="row"
+                                                (click)="onSelectFabric(item)"
+                                            >
+                                                <div class="col-6">
+                                                    <b>Mã:</b> {{item.id}}
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>Tồn kho:</b>
+                                                    {{item.total_quantity}}
+                                                    ({{item?.properties?.unit}})
+                                                </div>
+                                                <div class="col-6">
+                                                    <b>Giá:</b> {{item.price | number}}đ
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <h6 class="dunnio-section__title pt-3">Dịch Vụ Mở Rộng</h6>
+                            <div
+                                class="form-group"
+                                *ngFor="let advance of designAdvances"
+                            >
+                                <label>{{ advance?.name?.vi }}</label>
+                                <div class="dunnio-checkbox-list">
+                                    <label
+                                        class="dunnio-checkbox dunnio-checkbox--success"
+                                        *ngFor="let option of advance?.values"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            (change)="onSelectAdvance(advance?.id, option?.id)"
+                                            [checked]="option.checked"
+                                        >
+                                        {{ option?.name?.vi }} - <b>{{ option?.price | currency:'VND' }}</b>
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <h6 class="dunnio-section__title pt-3"> Ghi chú khách hàng:</h6>
+                            <div class="form-group">
+                                <textarea
+                                    class="form-control"
+                                    rows="2"
+                                    placeholder="ghi chú.."
+                                    name="note.customer"
+                                    [(ngModel)]="model.note.customer"
+                                    #note.customer="ngModel"
+                                ></textarea>
+                            </div>
+
+                            <h6 class="dunnio-section__title pt-3"> Ghi chú nội bộ:</h6>
+                            <div class="form-group">
+                                <textarea
+                                    class="form-control"
+                                    rows="2"
+                                    placeholder="ghi chú.."
+                                    name="note.system"
+                                    [(ngModel)]="model.note.system"
+                                    #note.system="ngModel"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- begin:: design item -->
+                    <div class="col-md-3">
+                        <div class="dunnio-section">
+                            <h6 class="dunnio-section__title">Thiết Kế Kiểu Dáng</h6>
+
+                            <div class="form-group">
+                                <label>Chọn giới tính</label>
+                                <div class="dunnio-radio-inline">
+                                    <label class="dunnio-radio dunnio-radio--success">
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            [(ngModel)]="model.properties.gender"
+                                            checked
+                                            value="male"
+                                            (click)="onChangeGender('male')"
+                                        > Cho Nam
+                                        <span></span>
+                                    </label>
+                                    <label class="dunnio-radio dunnio-radio--success">
+                                        <input
+                                            type="radio"
+                                            name="gender"
+                                            [(ngModel)]="model.properties.gender"
+                                            value="female"
+                                            (click)="onChangeGender('female')"
+                                        > Cho Nữ
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div
+                                class="form-group"
+                                *ngFor="let design of designConfigs"
+                            >
+                                <label>{{ design?.name.vi }}</label>
+                                <select
+                                    class="form-control"
+                                    [name]="design?.id"
+                                    (change)="onChangeDesign(design?.id, $event.target.value )"
+                                >
+                                    <option
+                                        *ngFor="let value of design?.values"
+                                        [value]="value?.id"
+                                        [selected]="value?.selected"
+                                    > {{ value?.name?.vi }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- begin:: design extra item -->
+                    <div class="col-md-5">
+                        <div class="dunnio-section">
+                            <h6 class="dunnio-section__title">Thiết Kế Nâng Cao</h6>
+
+                            <div
+                                class="form-group row"
+                                *ngFor="let extra of designExtras"
+                            >
+                                <label class="col-md-6"> {{ extra?.name?.vi }} </label>
+                                <label class="col-md-6"> Tùy Chọn </label>
+
+                                <div class="col-md-6">
+                                    <select
+                                        class="form-control"
+                                        [name]="extra.id"
+                                        (change)="onChangeExtra(extra?.id, $event.target.value)"
+                                    >
+                                        <option
+                                            [value]="value?.id"
+                                            *ngFor="let value of extra.values"
+                                            [selected]="value?.selected"
+                                        > {{ value?.name?.vi }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <ng-container *ngFor="let value of extra?.values">
+                                    <div
+                                        class="col-md-6"
+                                        *ngIf="value?.selected"
+                                    >
+                                        <select
+                                            class="form-control"
+                                            [name]="value?.id"
+                                            [disabled]="!value?.values.length"
+                                            (change)="onChangeExtra(extra?.id, value?.id, $event.target.value )"
+                                        >
+                                            <option
+                                                [value]="sub?.id"
+                                                *ngFor="let sub of value?.values"
+                                                [selected]="sub?.selected"
+                                            >{{sub?.id}} -
+                                                {{ sub?.price | currency: 'VND' }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </ng-container>
+
+                                <div
+                                    class="col-md-6 dunnio-mt-5"
+                                    *ngIf="extra?.id === 'initials__text'"
+                                >
+                                    <input
+                                        name="initials__text"
+                                        class="form-control"
+                                        (input)="onChangeInitialText($event)"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form
+            class="tab-pane fade"
+            id="form-create-notebody"
+            role="tabpanel"
+        >
+            <div class="row p-3 dunnio-scroll-data-item">
+                <div class="col-md-8 row m-0">
+                    <div
+                        class="dunnio-section col-md-12"
+                        style="margin-bottom: 1rem;"
+                    >
+                        <h4>Ghi chú cơ thể</h4>
+                    </div>
+                    <div class="dunnio-section col-md-12">
+                        <div class="form-group">
+                            <textarea
+                                placeholder="Ghi chú cơ thể"
+                                type="text"
+                                class="form-control textarea-border-bottom"
+                                [(ngModel)]="model.note.body_note"
+                                name="note.body_note"
+                                #note.body_note="ngModel"
+                            ></textarea>
+                        </div>
+                    </div>
+                    <div
+                        *ngFor="let note of bodyNotesub"
+                        class="col-md-3 p-0 dunnio-list-bodynote"
+                    >
+                        <ul>
+                            <div class="dunnio-list-bodynote dunnio-list-bodynote-name">
+                                {{note.name}}
+                            </div>
+                            <li>
+                                <div class="form-group dunnio-margin-b-0">
+                                    <div class="dunnio-checkbox-list">
+                                        <label
+                                            style="left: 25%;"
+                                            *ngFor="let item of note?.values"
+                                            class="dunnio-checkbox dunnio-checkbox--success"
+                                        >
+                                            <input
+                                                [checked]="item?.checked"
+                                                type="checkbox"
+                                                [value]="item?.value"
+                                                (click)="onSelectBodyNote(note,item)"
+                                                [name]="item?.name"
+                                            />
+                                            {{item?.name}}
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div
+                        class="dunnio-section col-md-12"
+                        style="margin-bottom: 1rem;"
+                    >
+                        <h4>Thông tin số đo</h4>
+                        <div class="row">
+                            <div
+                                *ngFor="let metric of metricsSub;let ix=index"
+                                class=" col-12 row"
+                            >
+                                <label class="col-5 col-form-label pt-3">{{metric.name}} </label>
+                                <div
+                                    *ngIf="metric.total_input === 1"
+                                    class="col-7"
+                                >
+                                    <input
+                                        type="text"
+                                        [value]="metric.value"
+                                        class="form-control input-border-bottom"
+                                        (input)="onChangeTextMetrics($event.target.value,ix)"
+                                    >
+                                </div>
+                                <div
+                                    *ngIf="metric.total_input === 2"
+                                    class="col-7 row p-0"
+                                >
+                                    <input
+                                        type="text"
+                                        [value]="metric.key1"
+                                        class="form-control input-border-bottom col-5"
+                                        (input)="onChangeTextMetrics($event.target.value,ix,1)"
+                                    >
+                                    <div
+                                        class="col-2 dunnio-align-center"
+                                        style="font-size: 20px;top:8px "
+                                    >...</div>
+                                    <input
+                                        type="text"
+                                        [value]="metric.key2"
+                                        class="form-control input-border-bottom col-5"
+                                        (input)="onChangeTextMetrics($event.target.value,ix,2)"
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="dunnio-portlet">
+            <div
+                class="dunnio-portlet__foot pb-0 pr-0"
+                style="border-top: 1px solid #C4C4C4"
+            >
+                <div class="dunnio-form__actions dunnio-align-right">
+                    <button
+                        type="reset"
+                        class="btn btn-info dunnio-margin-l-10"
+                        [disabled]="loading"
+                        style="width: 150px;"
+                        (click)="onResetForm()"
+                        [ngClass]="{'dunnio-spinner dunnio-spinner--right dunnio-spinner--md dunnio-spinner--light': loading}"
+                    >
+                        <span class="dunnio-menu__link-text">Làm mới</span>
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-success dunnio-margin-l-10"
+                        [disabled]="loading"
+                        style="width: 150px;"
+                        [ngClass]="{'dunnio-spinner dunnio-spinner--right dunnio-spinner--md dunnio-spinner--light': loading}"
+                    >
+                        <span class="dunnio-menu__link-text">Hoàn Thành</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

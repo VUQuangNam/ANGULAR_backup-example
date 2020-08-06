@@ -1,0 +1,22 @@
+<svg id="floppy-disk" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Group_5121" data-name="Group 5121" transform="translate(0 0)">
+    <g id="Group_5120" data-name="Group 5120" transform="translate(0 0)">
+      <path id="Path_5364" data-name="Path 5364" d="M23.121,3.121,20.878.878A3,3,0,0,0,18.757,0H18V6H4V0H2A2,2,0,0,0,0,2V22a2,2,0,0,0,2,2H22a2,2,0,0,0,2-2V5.243A3,3,0,0,0,23.121,3.121ZM20,20H4V9.934H20Z" transform="translate(0 0)" fill="#fff"/>
+    </g>
+  </g>
+  <g id="Group_5123" data-name="Group 5123" transform="translate(5.828 0)">
+    <g id="Group_5122" data-name="Group 5122" transform="translate(0.172 0)">
+      <rect id="Rectangle_5178" data-name="Rectangle 5178" width="10" height="4" fill="#fff"/>
+    </g>
+  </g>
+  <g id="Group_5125" data-name="Group 5125" transform="translate(6.207 12)">
+    <g id="Group_5124" data-name="Group 5124" transform="translate(0 0)">
+      <rect id="Rectangle_5179" data-name="Rectangle 5179" width="12" height="2" transform="translate(-0.207 0)" fill="#fff"/>
+    </g>
+  </g>
+  <g id="Group_5127" data-name="Group 5127" transform="translate(6.207 16.138)">
+    <g id="Group_5126" data-name="Group 5126" transform="translate(0 0)">
+      <rect id="Rectangle_5180" data-name="Rectangle 5180" width="12" height="2" transform="translate(-0.207 -0.138)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

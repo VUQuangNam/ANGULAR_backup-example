@@ -1,0 +1,84 @@
+<div class="card card--border">
+    <div class="card-body">
+        <div class="form-group mb-0 row">
+            <label class="col-lg-2 col-form-label">
+                Tìm khách hàng:
+            </label>
+            <div class="col-lg-8">
+                <ng-select
+                    name="search"
+                    bindValue="id"
+                    bindLabel="name"
+                    [items]="searchData"
+                    [loading]="loading"
+                    (search)="onSearch($event)"
+                >
+                    <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                    >
+                        <div
+                            class="row"
+                            (click)="onSelectMember(item)"
+                        >
+                            <div class="col-6">
+                                <b>Tên:</b> {{item?.name}}
+                            </div>
+                            <div class="col-6">
+                                <b>Điện thoại:</b> {{item?.phone}}
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-select>
+            </div>
+            <div class="col-lg-2">
+                <button
+                    class="btn btn-primary btn-sm"
+                    style="width: 100%;"
+                >
+                    Nhập file
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-list">
+        <div
+            class="table-responsive-lg"
+            style="min-height: 400px;"
+        >
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col">Tên khách hàng</th>
+                        <th scope="col">Điện thoại</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Ngày sinh</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        scope="row"
+                        *ngFor="let item of members"
+                    >
+                        <td>{{item.name}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.birthday | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <a
+                                class="text-danger"
+                                href="javascript:void(0)"
+                                (click)="onRemoveMember(item.id)"
+                            >
+                                <i class="fa fa-trash-alt"></i>
+                                <!-- xóa khách hàng -->
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

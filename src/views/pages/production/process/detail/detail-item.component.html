@@ -1,0 +1,526 @@
+<div class="dunnio-portlet__body dunnio-padding-t-10">
+    <div
+        class="dunnio-section-tablist"
+        style="border: 0px;"
+    >
+        <ul
+            role="tablist"
+            class="nav nav-tabs p-0"
+            style="background-color: white;"
+        >
+            <li class="nav-item  pl-3">
+                <a
+                    data-toggle="tab"
+                    class="nav-link active"
+                    href="#product_information"
+                    role="tab"
+                >
+                    Thông tin sản phẩm
+                </a>
+            </li>
+            <li
+                *ngIf="model.type !== 'type' && model.type !== 'warranty'"
+                class="nav-item"
+            >
+                <a
+                    class="nav-link"
+                    data-toggle="tab"
+                    href="#design_product"
+                    role="tab"
+                    *ngIf="model.type !== 'repair' && model.type !== 'warranty'"
+                >
+                    Thiết kế
+                </a>
+            </li>
+            <li
+                class="nav-item"
+                *ngIf="model.type !== 'repair' && model.type !== 'warranty'"
+            >
+                <a
+                    class="nav-link"
+                    data-toggle="tab"
+                    href="#measure_product"
+                    role="tab"
+                >
+                    Số đo
+                </a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    data-toggle="tab"
+                    href="#tailor_service"
+                    role="tab"
+                >
+                    Dịch vụ
+                </a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link"
+                    data-toggle="tab"
+                    href="#history_product"
+                    role="tab"
+                >
+                    Lịch sử thao tác
+                </a>
+            </li>
+        </ul>
+        <div
+            class="tab-content dunnio-margin-b-30"
+            style="overflow-x: hidden; max-height: 400px;"
+        >
+            <div
+                id="product_information"
+                class="tab-pane active "
+            >
+                <div class="row">
+                    <div class="col-md-4 dunnio-align-center">
+                        <img
+                            *ngIf="model?.images.length"
+                            class="image_detail_order_available w-50"
+                            [src]="model?.images[0]"
+                        >
+                        <img
+                            *ngIf="!model?.images.length"
+                            class="image_detail_order_available w-50"
+                            src="{{src}}"
+                        >
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-6 dunnio-padding-t-20">
+                                Mã sản phẩm:
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                {{model?.id}}
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                Mã vải:
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                {{model?.fabric?.name || 'Chưa cập nhật'}}
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                Danh mục sản phẩm:
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                {{model?.category_name || 'Chưa cập nhật'}}
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">Thương hiệu:
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                {{model?.properties?.brand || 'Chưa cập nhật'}}
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                Giá bán:
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                {{model?.price | number}}đ
+                            </div>
+                            <div class="col-6 dunnio-padding-t-20">Đơn vị:</div>
+                            <div class="col-6 dunnio-padding-t-20">
+                                {{model?.properties?.unit || 'Chưa cập nhật'}}
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="col-md-4"
+                        *ngIf="model.type === 'tailor' || model.type ==='tailor_at_home'"
+                    >
+                        <div class="row">
+                            <div class="form-group dunnio-margin-r-20 dunnio-padding-t-20 col-12">
+                                Mô tả sản phẩm:
+                                <textarea
+                                    class="form-control textarea-border-bottom "
+                                    name="note.description"
+                                    [(ngModel)]="model.description"
+                                    #note.description="ngModel"
+                                ></textarea>
+                            </div>
+                            <div class="form-group dunnio-margin-r-20 col-12">
+                                Ghi chú khách hàng:
+                                <textarea
+                                    class="form-control textarea-border-bottom "
+                                    name="note.customer"
+                                    [(ngModel)]="model.note.customer"
+                                    #note.customer="ngModel"
+                                ></textarea>
+                            </div>
+                            <div class="form-group dunnio-margin-r-20 col-12">
+                                Ghi chú nội bộ:
+                                <textarea
+                                    class="form-control textarea-border-bottom "
+                                    name="note.system"
+                                    [(ngModel)]="model.note.system"
+                                    #note.system="ngModel"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="design_product"
+                class="tab-pane fade"
+                *ngIf="model.type !== 'repair' && model.type !== 'warranty'"
+            >
+                <div class="row">
+                    <div class="col-md-4 dunnio-align-center">
+                        <img
+                            *ngIf="model?.images.length"
+                            class="image_detail_order_available w-50"
+                            [src]="model?.images[0]"
+                        >
+                        <img
+                            *ngIf="!model?.images.length"
+                            class="image_detail_order_available w-50"
+                            src="{{src}}"
+                        >
+                    </div>
+                    <div class="col-md-3 row">
+                        <div class="dunnio-section">
+                            <h6 class="dunnio-section__title">
+                                Thiết kế kiểu dáng
+                            </h6>
+                            <div
+                                class="form-group"
+                                *ngFor="let design of designConfigs"
+                            >
+                                <div>
+                                    <label>{{ design?.name.vi }}</label>
+                                    <select
+                                        disabled
+                                        class="form-control"
+                                        [name]="design?.id"
+                                    >
+                                        <option
+                                            *ngFor="let value of design?.values"
+                                            [value]="value?.id"
+                                            [selected]="value?.selected"
+                                        > {{ value?.name?.vi }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="dunnio-section">
+                            <h6 class="dunnio-section__title">
+                                Thiết kế nâng cao
+                            </h6>
+                            <div
+                                class="form-group row"
+                                *ngFor="let extra of designExtras"
+                            >
+                                <label class="col-md-6">
+                                    {{ extra?.name?.vi }} </label>
+                                <label class="col-md-6"> Tùy Chọn </label>
+
+                                <div class="col-md-6">
+                                    <select
+                                        disabled
+                                        class="form-control"
+                                        [name]="extra.id"
+                                    >
+                                        <option
+                                            disabled
+                                            [value]="value?.id"
+                                            *ngFor="let value of extra.values"
+                                            [selected]="value?.selected"
+                                        > {{ value?.name?.vi }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <ng-container *ngFor="let value of extra?.values">
+                                    <div
+                                        class="col-md-6"
+                                        *ngIf="value?.selected"
+                                    >
+                                        <select
+                                            disabled
+                                            class="form-control"
+                                            [name]="value?.id"
+                                        >
+                                            <option
+                                                disabled
+                                                [value]="sub?.id"
+                                                *ngFor="let sub of value?.values"
+                                                [selected]="sub?.selected"
+                                            >{{sub?.id}} -
+                                                {{ sub?.price | currency: 'VND' }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </ng-container>
+
+                                <div
+                                    class="col-md-6 dunnio-mt-5"
+                                    *ngIf="extra?.id === 'initials__text'"
+                                >
+                                    <input
+                                        disabled
+                                        name="initials__text"
+                                        class="form-control"
+                                        [value]="extra?.initials__text || ''"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="measure_product"
+                *ngIf="model.type !== 'type' && model.type !== 'warranty'"
+                class="tab-pane fade"
+            >
+                <div class="row">
+                    <div class="col-md-4 dunnio-align-center">
+                        <img
+                            *ngIf="model?.images.length"
+                            class="image_detail_order_available w-50"
+                            [src]="model?.images[0]"
+                        >
+                        <img
+                            *ngIf="!model?.images.length"
+                            class="image_detail_order_available w-50"
+                            src="{{src}}"
+                        >
+                    </div>
+                    <div class="col-md-4">
+                        <div
+                            *ngFor="let metric of metrics;let ix=index"
+                            class="row"
+                        >
+                            <label class="col-5 col-form-label pt-3">
+                                {{metric?.name}}
+                            </label>
+                            <div
+                                *ngIf="metric.total_input === 1"
+                                class="col-7"
+                            >
+                                <input
+                                    readonly
+                                    type="text"
+                                    class="form-control input-border-bottom"
+                                    [value]="metric?.value"
+                                >
+                            </div>
+                            <div
+                                *ngIf="metric.total_input === 2"
+                                class="col-7 row p-0"
+                            >
+                                <input
+                                    readonly
+                                    type="text"
+                                    [name]="metric.key"
+                                    [value]="metric?.key1"
+                                    class="form-control input-border-bottom col-5"
+                                >
+                                <div
+                                    class="col-2 dunnio-align-center"
+                                    style="font-size: 20px;top:8px "
+                                >...</div>
+                                <input
+                                    readonly
+                                    type="text"
+                                    [name]="metric.key"
+                                    [value]="metric?.key2"
+                                    class="form-control input-border-bottom col-5"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="pt-3">
+                            Ghi chú cơ thể
+                        </label>
+                        <textarea
+                            style="height: 45px;"
+                            type="text"
+                            class="form-control textarea-border-bottom dunnio-margin-b-30"
+                            name="note"
+                            [(ngModel)]="model?.note.body_note"
+                            #note="ngModel"
+                        ></textarea>
+                        <label class="pb-3">
+                            Lưu ý cơ thể
+                        </label>
+                        <div
+                            *ngFor="let item of bodyNote"
+                            class="col-12 row p-0"
+                            style="left: 25px;"
+                        >
+                            <div class="col-12 row p-0">
+                                <label
+                                    class="col-12 row col-form-label"
+                                    style="
+                                    height: 90%;
+                                    background-color: #E6E6E6;
+                                    border-radius: 5px;
+                                    opacity: 1;
+                                    "
+                                    (click)="item.hide = !item.hide"
+                                >
+                                    <div
+                                        class="col-11"
+                                        style="font-size: 13px;"
+                                    >
+                                        <b>{{item.name}}</b> : {{item.textValue}}
+                                    </div>
+                                    <div
+                                        *ngIf="item.hide"
+                                        class="col-1 p-0"
+                                    >
+                                        <img src="./assets/media/icons/next-down.svg">
+                                    </div>
+                                    <div
+                                        *ngIf="!item.hide"
+                                        class="col-1 p-0"
+                                    >
+                                        <img src="./assets/media/icons/sort-down.svg">
+                                    </div>
+                                </label>
+                            </div>
+                            <div
+                                *ngIf="item.hide"
+                                class="col-12 row p-3"
+                            >
+                                <label
+                                    *ngFor="let x of item.values"
+                                    class="dunnio-checkbox dunnio-checkbox--success col-6"
+                                >
+                                    <input
+                                        disabled
+                                        [checked]="x?.checked"
+                                        type="checkbox"
+                                        [value]="x?.value"
+                                        [name]="x?.name"
+                                    />
+                                    {{x.name}}
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="tailor_service"
+                class="tab-pane fade"
+            >
+                <div class="row">
+                    <div class="col-md-4 dunnio-align-center">
+                        <img
+                            *ngIf="model?.images.length"
+                            class="image_detail_order_available w-50"
+                            [src]="model?.images[0]"
+                        >
+                        <img
+                            *ngIf="!model?.images.length"
+                            class="image_detail_order_available w-50"
+                            src="{{src}}"
+                        >
+                    </div>
+                    <div class="col-md-4 row">
+                        <div
+                            class="form-group"
+                            *ngFor="let advance of designAdvances"
+                        >
+                            <label>{{ advance?.name?.vi }}</label>
+                            <div class="dunnio-checkbox-list">
+                                <label
+                                    style="width: 100%;"
+                                    class="dunnio-checkbox dunnio-checkbox--success"
+                                    *ngFor="let option of advance?.values"
+                                >
+                                    <input
+                                        disabled
+                                        type="checkbox"
+                                        [checked]="option?.checked"
+                                    >
+                                    {{ option?.name?.vi }} -
+                                    <b>{{ option?.price | currency:'VND' }}</b>
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                id="history_product"
+                class="tab-pane fade"
+            >
+                <div class="row">
+                    <div class="col-md-4 dunnio-align-center">
+                        <img
+                            *ngIf="model?.images.length"
+                            class="image_detail_order_available w-50"
+                            [src]="model?.images[0]"
+                        >
+                        <img
+                            *ngIf="!model?.images.length"
+                            class="image_detail_order_available w-50"
+                            src="{{src}}"
+                        >
+                    </div>
+                    <div class="col-md-8">
+                        <div id="timeline-content">
+                            <ul class="timeline">
+                                <li
+                                    *ngFor="let history of histories"
+                                    class="event"
+                                >
+                                    <div class="content-left">
+                                        {{transformDate(history.created_at)}}
+                                    </div>
+                                    <div class="content-right">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <label>
+                                                    <b style="color: #16335B;">
+                                                        Nhân viên:
+                                                    </b>
+                                                </label>
+                                                {{history.created_by.name}}
+                                            </div>
+                                            <div class="col-12">
+                                                <b style="color: #16335B;">
+                                                    Nội dung thay đổi
+                                                </b>
+                                            </div>
+                                            <div
+                                                class="col-12 row mt-2"
+                                                *ngFor="let x of history.histories"
+                                            >
+                                                <div class="col-6">
+                                                    {{x.name}}:
+                                                </div>
+                                                <div
+                                                    *ngIf="x.type === 'date'"
+                                                    class="col-6"
+                                                >
+                                                    {{x.value | date: 'dd/MM/yyyy'}}
+                                                </div>
+                                                <div
+                                                    *ngIf="x.type !== 'date'"
+                                                    class="col-6"
+                                                >
+                                                    {{x.value}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

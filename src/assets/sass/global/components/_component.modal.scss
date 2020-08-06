@@ -1,0 +1,61 @@
+.modal {
+    .modal-header {
+        background: c-base-color(grey, 3);
+        color: #141414;
+
+        &__solid {
+            border-bottom: none;
+        }
+    }
+
+    .modal-nav {
+        background: #DCF4FC;
+        color: #000000;
+
+        .nav-item {
+            .nav-link {
+                color: #141414;
+                font-weight: bold;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .modal-body {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .modal-footer {
+        // border-top: none;
+        padding-bottom: 1.7rem;
+    }
+
+    // Desktop(576px and above)
+    @include c-media-above(sm) {
+        &-xl {
+            max-width: 546px;
+        }
+    }
+
+    // Desktop(768px and above)
+    @include c-media-above(md) {
+        &-xl {
+            max-width: 738px;
+        }
+    }
+
+    // Desktop(1024px and above)
+    @include c-media-above(lg) {
+        &-xl {
+            max-width: 994px;
+        }
+    }
+
+    // Desktop(1399px and above)
+    @include c-media-above(xl) {
+        &-xl {
+            max-width: 1024px;
+        }
+    }
+}

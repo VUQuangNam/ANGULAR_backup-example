@@ -1,0 +1,88 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <form class="form">
+            <section class="c-right__header">
+                <div class="row mt-3 mb-3">
+                    <div class="col-md-8">
+                        <a
+                            routerLink="/customer-group"
+                            class="back text-dark"
+                        >
+                            &lt; Nhóm khách hàng
+                        </a>
+                        <h4>{{model?.name}}</h4>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-danger mr-2"
+                            (click)="onRemove()"
+                        >
+                            Xóa nhóm
+                        </button>
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-info"
+                            (click)="onUpdate()"
+                        >
+                            Cập nhật
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="c-right__content">
+                <div class="row">
+                    <div class="col-md-8">
+                        <app-search-user
+                            [members]="model?.customers || []"
+                            (callback)="handleSeachChange($event)"
+                        >
+                        </app-search-user>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card--border">
+                            <div class="card-body">
+                                <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                    Thông tin nhóm
+                                </h6>
+                                <div class="form-group">
+                                    <label>Tên nhóm</label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="nhập tên nhóm"
+                                        [(ngModel)]="model.name"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Chi nhánh</label>
+                                    <select
+                                        name="store"
+                                        type="text"
+                                        class="form-control"
+                                        disabled
+                                    >
+                                        <option>
+                                            {{model?.store?.name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Ghi chú</label>
+                                    <textarea
+                                        name="note"
+                                        class="form-control"
+                                        placeholder="nhập ghi chú"
+                                        [(ngModel)]="model.note"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

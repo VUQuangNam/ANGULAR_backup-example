@@ -1,0 +1,19 @@
+<svg id="Component_14_1" data-name="Component 14 – 1" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <circle id="Ellipse_2" data-name="Ellipse 2" cx="20" cy="20" r="20" fill="#e54028" opacity="0.1"/>
+  <g id="Group_5049" data-name="Group 5049" transform="translate(8 8)">
+    <g id="small-calendar">
+      <g id="calendar_1_">
+        <path id="Path_2367" data-name="Path 2367" d="M22,2.25H18.75V.75a.75.75,0,1,0-1.5,0v1.5h-4.5V.75a.75.75,0,1,0-1.5,0v1.5H6.75V.75a.75.75,0,1,0-1.5,0v1.5H2a2,2,0,0,0-2,2V22a2,2,0,0,0,2,2H22a2,2,0,0,0,2-2V4.25A2,2,0,0,0,22,2.25ZM22.5,22a.5.5,0,0,1-.5.5H2a.5.5,0,0,1-.5-.5V4.25a.5.5,0,0,1,.5-.5H5.25v1.5a.75.75,0,1,0,1.5,0V3.75h4.5v1.5a.75.75,0,1,0,1.5,0V3.75h4.5v1.5a.75.75,0,1,0,1.5,0V3.75H22a.5.5,0,0,1,.5.5Z" fill="#ea4d42"/>
+        <rect id="Rectangle_3635" data-name="Rectangle 3635" width="3" height="2.25" transform="translate(5.25 9)" fill="#ea4d42"/>
+        <rect id="Rectangle_3636" data-name="Rectangle 3636" width="3" height="2.25" transform="translate(5.25 12.75)" fill="#ea4d42"/>
+        <rect id="Rectangle_3637" data-name="Rectangle 3637" width="3" height="2.25" transform="translate(5.25 16.5)" fill="#ea4d42"/>
+        <rect id="Rectangle_3638" data-name="Rectangle 3638" width="3" height="2.25" transform="translate(10.5 16.5)" fill="#ea4d42"/>
+        <rect id="Rectangle_3639" data-name="Rectangle 3639" width="3" height="2.25" transform="translate(10.5 12.75)" fill="#ea4d42"/>
+        <rect id="Rectangle_3640" data-name="Rectangle 3640" width="3" height="2.25" transform="translate(10.5 9)" fill="#ea4d42"/>
+        <rect id="Rectangle_3641" data-name="Rectangle 3641" width="3" height="2.25" transform="translate(15.75 16.5)" fill="#ea4d42"/>
+        <rect id="Rectangle_3642" data-name="Rectangle 3642" width="3" height="2.25" transform="translate(15.75 12.75)" fill="#ea4d42"/>
+        <rect id="Rectangle_3643" data-name="Rectangle 3643" width="3" height="2.25" transform="translate(15.75 9)" fill="#ea4d42"/>
+      </g>
+    </g>
+  </g>
+</svg>

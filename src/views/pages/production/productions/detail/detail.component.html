@@ -1,0 +1,827 @@
+<div class="dunnio-grid__item dunnio-grid__item--fluid dunnio-grid dunnio-grid--hor">
+    <div class="row mt-4">
+        <div class="col-md-4 col-4 col-sm-12">
+            <div class="">
+                <a href="/productions">
+                    <img
+                        class="mr-1"
+                        src="./assets/media/icons/next.svg"
+                    >
+                    Quản lý sản xuất
+                </a>
+                <div>
+                    <a
+                        class="dunnio-back-list-id"
+                        href="javascript:;"
+                    >
+                        {{model?.id}}
+                    </a>
+                    <span
+                        class="badge badge-{{statuses[model?.status]?.color}} ml-3 mr-3"
+                        style="color: white;"
+                    >
+                        {{statuses[model?.status]?.name}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="dunnio-portlet">
+        <div class="dunnio-portlet__body dunnio-padding-0">
+            <div class="dunnio-section-tablist">
+                <ul
+                    class="nav nav-tabs p-0"
+                    role="tablist"
+                >
+                    <li class="nav-item">
+                        <a
+                            class="nav-link active"
+                            data-toggle="tab"
+                            href="#order_information"
+                            role="tab"
+                        >
+                            Thông tin đơn hàng
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div
+                        id="order_information"
+                        class="tab-pane active dunnio-padding-t-30"
+                    >
+                        <div class="row">
+                            <div class="col-9">
+                                <table style="width: 100%;">
+                                    <tr class="row">
+                                        <td class="col-2 dunnio-padding-l-30 dunnio-padding-b-20">Loại đơn hàng:</td>
+                                        <td class="col-2">Đơn hàng may đo</td>
+                                        <td class="col-2">Tạo đơn:</td>
+                                        <td class="col-2">{{model?.created_by?.name}}</td>
+                                        <td class="col-2">Ngày tạo đơn:</td>
+                                        <td class="col-2">{{transformDate(model?.created_at)}}</td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-2 dunnio-padding-l-30 dunnio-padding-b-20"> Mã đơn hàng:</td>
+                                        <td class="col-2">{{model?.id}}</td>
+                                        <td class="col-2">Tư vấn:</td>
+                                        <td class="col-2">{{model?.created_by?.name}}</td>
+                                        <td class="col-2">Ngày thử 1:</td>
+                                        <td class="col-2">
+                                            {{model.preview_process.one ? transformDate(model?.preview_process?.one) : 'Chưa cập nhật'}}
+                                        </td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-2 dunnio-padding-l-30 dunnio-padding-b-20"> Khách hàng:</td>
+                                        <td class="col-2">{{model?.customer?.name}}</td>
+                                        <td class="col-2">Người đo:</td>
+                                        <td class="col-2">
+                                            {{model?.measure_process?.complete_by || "Chưa cập nhật"}}
+                                        </td>
+                                        <td class="col-2">Ngày thử 2:</td>
+                                        <td class="col-2">
+                                            {{model.preview_process.two ? transformDate(model?.preview_process?.two) : 'Chưa cập nhật'}}
+                                        </td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-2 dunnio-padding-l-30 dunnio-padding-b-20">Số điện thoại:</td>
+                                        <td class="col-2">{{model?.customer?.phone}}</td>
+                                        <td class="col-2">Chi nhánh</td>
+                                        <td class="col-2">{{model?.store?.name}}</td>
+                                        <td class="col-2">Ngày lấy:</td>
+                                        <td class="col-2">
+                                            {{model.deadline ? transformDate(model?.deadline) : 'Chưa cập nhật'}}
+                                        </td>
+                                    </tr>
+                                    <tr class="row">
+                                        <td class="col-2 dunnio-padding-l-30 dunnio-padding-b-20">Công nợ:</td>
+                                        <td class="col-2">{{(model?.total_before_discount | number) || 0}}đ</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-3 dunnio-padding-l-30">
+                                <div class="form-group dunnio-margin-r-20">
+                                    Ghi chú khách hàng:
+                                    <textarea
+                                        disabled
+                                        class="form-control textarea-border-bottom "
+                                        name="note.customer"
+                                        [(ngModel)]="model.note.customer"
+                                        #note.customer="ngModel"
+                                    ></textarea>
+                                </div>
+                                <div class="form-group dunnio-margin-r-20">
+                                    Ghi chú nội bộ:
+                                    <textarea
+                                        disabled
+                                        class="form-control textarea-border-bottom "
+                                        name="note.system"
+                                        [(ngModel)]="model.note.system"
+                                        #note.system="ngModel"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="padding: 20px; padding-top: 0px;">
+                            <table
+                                class="table table-bordered"
+                                style="width: 100%;"
+                            >
+                                <thead style="background-color:#EAE8E8 ;">
+                                    <tr>
+                                        <th class="dunnio-align-center">Mã sản phẩm</th>
+                                        <th class="dunnio-align-center">Danh mục</th>
+                                        <th class="dunnio-align-center">Ngày đặt</th>
+                                        <th class="dunnio-align-center">Ngày thử 1</th>
+                                        <th class="dunnio-align-center">Ngày thử 2</th>
+                                        <th class="dunnio-align-center">Ghi chú</th>
+                                        <th class="dunnio-align-center">Trạng thái</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let product of model?.products">
+                                    <tr style="background-color:#f4f6f8;">
+                                        <td (click)="onLoadDetailProduct(product)"><a>{{product?.id}}</a></td>
+                                        <td class="dunnio-align-center">
+                                            {{transformCategories(product?.category_id)}}
+                                        </td>
+                                        <td class="dunnio-align-center">
+                                            {{transformDate(model?.created_at)}}
+                                        </td>
+                                        <td class="dunnio-align-center">
+                                            {{product.preview_process.one ? transformDate(product.preview_process.one): 'Chưa cập nhật'}}
+                                        </td>
+                                        <td class="dunnio-align-center">
+                                            {{product.preview_process.two ? transformDate(product.preview_process.two): 'Chưa cập nhật'}}
+                                        </td>
+                                        <td class="dunnio-align-right">
+                                            {{product.note.system || 'Chưa cập nhật'}}
+                                        </td>
+                                        <td class="dunnio-align-right">
+                                            {{statuses[product.status]?.name}}
+                                        </td>
+                                    </tr>
+                                    <tr [hidden]="!product.hide">
+                                        <td
+                                            colspan="8"
+                                            style="padding: 0px;"
+                                        >
+                                            <div class="dunnio-portlet__body dunnio-padding-0">
+                                                <div
+                                                    class="dunnio-section-tablist"
+                                                    style="border: 0px;"
+                                                >
+                                                    <ul
+                                                        class="nav nav-tabs p-0"
+                                                        role="tablist"
+                                                        style="background-color: #f4f6f8;"
+                                                    >
+                                                        <li class="nav-item  pl-3">
+                                                            <a
+                                                                class="nav-link active"
+                                                                data-toggle="tab"
+                                                                href="#product_assign{{product.id}}"
+                                                                role="tab"
+                                                            >
+                                                                Giao việc
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content dunnio-margin-b-30">
+                                                        <div
+                                                            id="product_assign{{product.id}}"
+                                                            class="tab-pane active"
+                                                        >
+                                                            <div class="row dunnio-padding-t-20">
+                                                                <div class="col-md-4">
+                                                                    <div class="dunnio-section dunnio-padding-l-20 row">
+                                                                        <h6 class="dunnio-section__title">
+                                                                            Định lượng nguyên phụ liệu
+                                                                        </h6>
+                                                                        <div class="col-12 p-0 dunnio-margin-b-20">
+                                                                            <ng-select
+                                                                                [items]="fabrics"
+                                                                                bindLabel="fullText"
+                                                                                name="fabrics"
+                                                                                name="fabric"
+                                                                                placeholder="tìm kiếm.."
+                                                                                [loading]="loading"
+                                                                                (search)="onSearchMaterial($event.term)"
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    Mã: <b>{{item.id}}</b>
+                                                                                </ng-template>
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <div
+                                                                                        class="row"
+                                                                                        (click)="onAddMaterial(item)"
+                                                                                    >
+                                                                                        <div class="col-5">
+                                                                                            <b>Mã:</b>
+                                                                                            {{item.id}}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <b>Tồn kho:</b>
+                                                                                            {{item.total_quantity}}
+                                                                                            ({{item?.properties?.unit}})
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-12 row"
+                                                                            style="left: 10px;"
+                                                                        >
+                                                                            <table class="col-12">
+                                                                                <tr
+                                                                                    class="row mb-4"
+                                                                                    *ngFor="let item of materials; let index = index"
+                                                                                >
+                                                                                    <td
+                                                                                        class="col-3 p-0"
+                                                                                        style="max-height: 80px;"
+                                                                                    >
+                                                                                        <img
+                                                                                            *ngIf="!item?.image"
+                                                                                            class="image_detail_material_produciton"
+                                                                                            src=""
+                                                                                        >
+                                                                                        <img
+                                                                                            *ngIf="item?.image"
+                                                                                            class="image_detail_material_produciton"
+                                                                                            [src]="item?.image"
+                                                                                        >
+                                                                                    </td>
+                                                                                    <td
+                                                                                        class="col-3 dunnio-align-center"
+                                                                                        style="max-height: 80px;"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="text_id_detail_material_produciton">
+                                                                                            Mã
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div
+                                                                                            class="text_content_detail_material_produciton">
+                                                                                            {{item.id}}
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td
+                                                                                        class="col-3 dunnio-align-center"
+                                                                                        style="max-height: 80px;"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="text_id_detail_material_produciton">
+                                                                                            Số lượng
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div
+                                                                                            class="text_content_detail_material_produciton">
+                                                                                            <input
+                                                                                                class="form-control input-border-bottom input-border-bottom-quantity"
+                                                                                                name="total_discount"
+                                                                                                [(ngModel)]="item.quantity"
+                                                                                                min="0"
+                                                                                                type="number"
+                                                                                            >
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td
+                                                                                        class="col-3 dunnio-align-center"
+                                                                                        style="max-height: 80px;"
+                                                                                    >
+                                                                                        <div
+                                                                                            class="text_id_detail_material_produciton">
+                                                                                            Đơn vị
+                                                                                        </div>
+                                                                                        <br>
+                                                                                        <div
+                                                                                            class="text_content_detail_material_produciton">
+                                                                                            {{item.unit}}
+                                                                                        </div>
+                                                                                        <button
+                                                                                            *ngIf="index !== 0"
+                                                                                            class="btn_close_material"
+                                                                                            (click)="onRemoveMaterial(item)"
+                                                                                        >
+                                                                                            <img
+                                                                                                src="./assets/media/icons/delete-material.svg">
+                                                                                        </button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="dunnio-align-right col-12 p-0">
+                                                                            <button
+                                                                                *ngIf="product.status ==='pending'"
+                                                                                type="button"
+                                                                                class="btn btn-success"
+                                                                                (click)="handleRequestExport()"
+                                                                            >
+                                                                                Gửi yêu cầu xuất kho
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="dunnio-section dunnio-padding-l-20 row">
+                                                                        <h6 class="dunnio-section__title col-6">
+                                                                            Chi tiết số đo
+                                                                        </h6>
+                                                                        <div
+                                                                            class="col-6 dunnio-align-right"
+                                                                            style="top: -12px;"
+                                                                        >
+                                                                            <button
+                                                                                class="btn btn-edit-metric"
+                                                                                href="javascript:;"
+                                                                                data-toggle="modal"
+                                                                                data-target="#dunnio_update_bodynote"
+                                                                            >
+                                                                                Chỉnh sửa
+                                                                            </button>
+                                                                        </div>
+                                                                        <div
+                                                                            class="col-12 row p-3"
+                                                                            style="background-color: #F0F0F0;"
+                                                                        >
+                                                                            <div
+                                                                                *ngFor="let metric of metricsSub"
+                                                                                class="col-6 row"
+                                                                            >
+                                                                                <div class="col-12 row">
+                                                                                    <div class="col-6">
+                                                                                        {{metric?.short_key}}:
+                                                                                    </div>
+                                                                                    <div class="col-6">
+                                                                                        {{metric?.value || '0'}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <h6 class="dunnio-section__title mt-3">
+                                                                            Lưu ý cơ thể
+                                                                        </h6>
+                                                                        <textarea
+                                                                            disabled
+                                                                            class="form-control textarea-border-bottom "
+                                                                            [value]="valueBodyNote"
+                                                                        ></textarea>
+                                                                        <h6 class="dunnio-section__title mt-3">
+                                                                            Ghi chú cơ thể
+                                                                        </h6>
+                                                                        <textarea
+                                                                            class="form-control textarea-border-bottom "
+                                                                            name="note.product.body_note"
+                                                                            [(ngModel)]="modelProduct.note.body_note"
+                                                                            #note.product.body_note="ngModel"
+                                                                        ></textarea>
+                                                                        <h6 class="dunnio-section__title mt-3">
+                                                                            Kiểu dáng
+                                                                        </h6>
+                                                                        <textarea
+                                                                            disabled
+                                                                            class="form-control textarea-border-bottom "
+                                                                            [value]="valueDesignStyle"
+                                                                        ></textarea>
+                                                                        <h6 class="dunnio-section__title mt-3">
+                                                                            Ghi chú sản phẩm
+                                                                        </h6>
+                                                                        <textarea
+                                                                            class="form-control textarea-border-bottom "
+                                                                            name="note.product.system"
+                                                                            [(ngModel)]="modelProduct.note.system"
+                                                                            #note.product.system="ngModel"
+                                                                        ></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <!-- model date process-->
+                                                                    <div
+                                                                        class="dunnio-section dunnio-padding-l-20 row dunnio-padding-r-20">
+                                                                        <h6 class="dunnio-section__title">
+                                                                            Giao việc
+                                                                        </h6>
+                                                                        <div class="dunnio-stage-assign col-12">
+                                                                            Giai đoạn cắt
+                                                                        </div>
+                                                                        <div class="col-6 pl-0">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                name="cut_process.complete_at"
+                                                                                [(ngModel)]="modelProduct?.cut_process.complete_at"
+                                                                                #cut_process.complete_at="ngModel"
+                                                                                placeholder="dd/mm/yyyy"
+                                                                                placement="bottom"
+                                                                                #datepickerYMD="bsDatepicker"
+                                                                                bsDatepicker
+                                                                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="col-6 pr-0">
+                                                                            <ng-select
+                                                                                (search)="onSearchEmployee($event.term)"
+                                                                                [items]="employees"
+                                                                                bindLabel="fullText"
+                                                                                bindValue="id"
+                                                                                [(ngModel)]="modelProduct.cut_process.complete_by"
+                                                                                name="cut_process.complete_by"
+                                                                                #cut_process.complete_by="ngModel"
+                                                                                [loading]="loading"
+                                                                                placeholder="tìm kiếm nhân viên..."
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <b>Tên: </b> {{ item?.name }}
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dunnio-stage-assign col-12 dunnio-margin-t-20">
+                                                                            Giai đoạn dựng thử
+                                                                        </div>
+                                                                        <div class="col-6 pl-0">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                name="prepare_process.complete_at"
+                                                                                [(ngModel)]="modelProduct.prepare_process.complete_at"
+                                                                                #prepare_process.complete_at="ngModel"
+                                                                                placeholder="dd/mm/yyyy"
+                                                                                placement="bottom"
+                                                                                #datepickerYMD="bsDatepicker"
+                                                                                bsDatepicker
+                                                                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="col-6 pr-0">
+                                                                            <ng-select
+                                                                                (search)="onSearchEmployee($event.term)"
+                                                                                [items]="employees"
+                                                                                bindLabel="fullText"
+                                                                                bindValue="id"
+                                                                                [(ngModel)]="modelProduct.prepare_process.complete_by"
+                                                                                name="prepare_process.complete_by"
+                                                                                #prepare_process.complete_by="ngModel"
+                                                                                [loading]="loading"
+                                                                                placeholder="tìm kiếm nhân viên..."
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <b>Tên: </b> {{ item?.name }}
+                                                                                    <b>SĐT: </b> {{ item?.phone }}
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dunnio-stage-assign col-12 dunnio-margin-t-20">
+                                                                            Giai đoạn may
+                                                                        </div>
+                                                                        <div class="col-6 pl-0">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                name="sew_process.complete_at"
+                                                                                [(ngModel)]="modelProduct.sew_process.complete_at"
+                                                                                #sew_process.complete_at="ngModel"
+                                                                                placeholder="dd/mm/yyyy"
+                                                                                placement="bottom"
+                                                                                #datepickerYMD="bsDatepicker"
+                                                                                bsDatepicker
+                                                                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="col-6 pr-0">
+                                                                            <ng-select
+                                                                                (search)="onSearchEmployee($event.term)"
+                                                                                [items]="employees"
+                                                                                bindLabel="fullText"
+                                                                                bindValue="id"
+                                                                                [(ngModel)]="modelProduct.sew_process.complete_by"
+                                                                                name="sew_process.complete_by"
+                                                                                #sew_process.complete_by="ngModel"
+                                                                                [loading]="loading"
+                                                                                placeholder="tìm kiếm nhân viên..."
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <b>Tên: </b> {{ item?.name }}
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="dunnio-stage-assign col-12 dunnio-margin-t-20">
+                                                                            Giai đoạn KCS1 (dựng thử)
+                                                                        </div>
+                                                                        <div class="col-6 pl-0">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                name="kcs_one_process.complete_at"
+                                                                                [(ngModel)]="modelProduct?.kcs_one_process.complete_at"
+                                                                                #kcs_one_process.complete_at="ngModel"
+                                                                                placeholder="dd/mm/yyyy"
+                                                                                placement="bottom"
+                                                                                #datepickerYMD="bsDatepicker"
+                                                                                bsDatepicker
+                                                                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="col-6 pr-0">
+                                                                            <ng-select
+                                                                                (search)="onSearchEmployee($event.term)"
+                                                                                [items]="employees"
+                                                                                bindLabel="fullText"
+                                                                                bindValue="id"
+                                                                                [(ngModel)]="modelProduct.kcs_one_process.complete_by"
+                                                                                name="kcs_one_process.complete_by"
+                                                                                #kcs_one_process.complete_by="ngModel"
+                                                                                [loading]="loading"
+                                                                                placeholder="tìm kiếm nhân viên..."
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <b>Tên: </b> {{ item?.name }}
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dunnio-stage-assign col-12 dunnio-margin-t-20">
+                                                                            Hoàn thiện
+                                                                        </div>
+                                                                        <div class="col-6 pl-0">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                name="complete_process.complete_at"
+                                                                                [(ngModel)]="modelProduct?.complete_process.complete_at"
+                                                                                #complete_process.complete_at="ngModel"
+                                                                                placeholder="dd/mm/yyyy"
+                                                                                placement="bottom"
+                                                                                #datepickerYMD="bsDatepicker"
+                                                                                bsDatepicker
+                                                                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="col-6 pr-0">
+                                                                            <ng-select
+                                                                                (search)="onSearchEmployee($event.term)"
+                                                                                [items]="employees"
+                                                                                bindLabel="fullText"
+                                                                                bindValue="id"
+                                                                                [(ngModel)]="modelProduct.complete_process.complete_by"
+                                                                                name="complete_process.complete_by"
+                                                                                #complete_process.complete_by="ngModel"
+                                                                                [loading]="loading"
+                                                                                placeholder="tìm kiếm nhân viên..."
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <b>Tên: </b> {{ item?.name }}
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+                                                                        <div
+                                                                            class="dunnio-stage-assign col-12 dunnio-margin-t-20">
+                                                                            Giai đoạn KCS2
+                                                                        </div>
+                                                                        <div class="col-6 pl-0">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                name="kcs_two_process.complete_at"
+                                                                                [(ngModel)]="modelProduct?.kcs_two_process.complete_at"
+                                                                                #kcs_two_process.complete_at="ngModel"
+                                                                                placeholder="dd/mm/yyyy"
+                                                                                placement="bottom"
+                                                                                #datepickerYMD="bsDatepicker"
+                                                                                bsDatepicker
+                                                                                [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                                                            >
+                                                                        </div>
+                                                                        <div class="col-6 pr-0">
+                                                                            <ng-select
+                                                                                (search)="onSearchEmployee($event.term)"
+                                                                                [items]="employees"
+                                                                                bindLabel="fullText"
+                                                                                bindValue="id"
+                                                                                [(ngModel)]="modelProduct.kcs_two_process.complete_by"
+                                                                                name="kcs_two_process.complete_by"
+                                                                                #kcs_two_process.complete_by="ngModel"
+                                                                                [loading]="loading"
+                                                                                placeholder="tìm kiếm nhân viên..."
+                                                                            >
+                                                                                <ng-template
+                                                                                    ng-label-tmp
+                                                                                    ng-option-tmp
+                                                                                    let-item="item"
+                                                                                >
+                                                                                    <b>Tên: </b> {{ item?.name }}
+                                                                                </ng-template>
+                                                                            </ng-select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="dunnio-align-right dunnio-padding-20">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-print dunnio-margin-r-10"
+                                                    (click)="printProductions()"
+                                                >
+                                                    <img src="./assets/media/icons/print-light.svg">
+                                                    <span class="dunnio-menu__link-text">In phiếu</span>
+                                                </button>
+                                                <button
+                                                    class="btn btn-success"
+                                                    style="width: 150px;"
+                                                    (click)="onAssignProducition()"
+                                                    *ngIf="modelProduct.status !=='cancelled' &&modelProduct.status !=='delivered' "
+                                                >
+                                                    <span class="dunnio-menu__link-text">Giao việc</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div
+    class="modal fade"
+    id="dunnio_update_bodynote"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+>
+    <div
+        class="modal-dialog modal-xl"
+        role="document"
+        style="min-width: 90%;"
+    >
+        <div class="modal-content">
+            <div class="modal-body dunnio-padding-0">
+                <div class="modal-body-title">
+                    <h3> Hồ sơ số đo </h3>
+                </div>
+                <div class="modal-body-content">
+                    <div
+                        class="row p-3"
+                        style="max-height: 450px; overflow-x: auto;"
+                    >
+                        <div class="col-md-8">
+                            <h4>Ghi chú cơ thể</h4>
+                            <div class="form-group">
+                                <textarea
+                                    placeholder="Ghi chú cơ thể"
+                                    type="text"
+                                    rows="2"
+                                    class="form-control textarea-border-bottom"
+                                    [(ngModel)]="modelProduct?.note.body_note"
+                                    name="note.body_note"
+                                    #note.body_note="ngModel"
+                                ></textarea>
+                            </div>
+                            <div class="row">
+                                <div
+                                    *ngFor="let note of bodyNotesub"
+                                    class="col-md-3 p-0 dunnio-list-bodynote"
+                                >
+                                    <ul>
+                                        <div class="dunnio-list-bodynote dunnio-list-bodynote-name">
+                                            {{note.name}}
+                                        </div>
+                                        <li>
+                                            <div class="form-group dunnio-margin-b-0">
+                                                <div class="dunnio-checkbox-list">
+                                                    <label
+                                                        style="left: 25%;"
+                                                        *ngFor="let item of note?.values"
+                                                        class="dunnio-checkbox dunnio-checkbox--success"
+                                                    >
+                                                        <input
+                                                            [checked]="item?.checked"
+                                                            type="checkbox"
+                                                            [value]="item?.value"
+                                                            (click)="onSelectBodyNote(note,item)"
+                                                            [name]="item?.name"
+                                                        />
+                                                        {{item?.name}}
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div
+                                class="col-md-12"
+                                style="margin-bottom: 1rem;"
+                            >
+                                <h4>Thông tin số đo</h4>
+                                <div class="row">
+                                    <div
+                                        *ngFor="let metric of metricsSub;let ix=index"
+                                        class=" col-12 row"
+                                    >
+                                        <label class="col-5 col-form-label pt-3">{{metric.name}} </label>
+                                        <div
+                                            *ngIf="metric.total_input === 1"
+                                            class="col-7"
+                                        >
+                                            <input
+                                                type="text"
+                                                class="form-control input-border-bottom"
+                                                [value]="metric?.value"
+                                                (input)="onChangeTextMetrics($event.target.value,ix)"
+                                            >
+                                        </div>
+                                        <div
+                                            *ngIf="metric.total_input === 2"
+                                            class="col-7 row p-0"
+                                        >
+                                            <input
+                                                type="text"
+                                                class="form-control input-border-bottom col-5"
+                                                [value]="metric?.key1"
+                                                (input)="onChangeTextMetrics($event.target.value,ix,1)"
+                                            >
+                                            <div
+                                                class="col-2 dunnio-align-center"
+                                                style="font-size: 20px;top:8px "
+                                            >...</div>
+                                            <input
+                                                type="text"
+                                                class="form-control input-border-bottom col-5"
+                                                [value]="metric?.key2"
+                                                (input)="onChangeTextMetrics($event.target.value,ix,2)"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dunnio-portlet">
+                    <div class="dunnio-portlet__foot pb-0 ">
+                        <div class="dunnio-form__actions dunnio-align-right ">
+                            <button
+                                type="button"
+                                class="btn btn-info"
+                                [disabled]="loading"
+                                style="width: 150px;"
+                                (click)="onUpdateBodyNote()"
+                                [ngClass]="{'dunnio-spinner dunnio-spinner--right dunnio-spinner--md dunnio-spinner--light': loading}"
+                            >
+                                <!-- <dunnio-icon-group
+                                    name="dn-update"
+                                    width="20"
+                                    height="20"
+                                    *ngIf="!loading"
+                                ></dunnio-icon-group> -->
+                                <span class="dunnio-menu__link-text"> Cập nhật</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

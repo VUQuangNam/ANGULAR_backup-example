@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h5 class="modal-title">Lưu ý cơ thể</h5>
+    <button
+        type="button"
+        class="close"
+        (click)="onClose()"
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form
+    class="validated"
+    (ngSubmit)="onCreate()"
+    autocomplete="off"
+>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="c-checkbox-list">
+                        <label
+                            class="c-checkbox c-checkbox--success"
+                            *ngFor="let value of bodyNote.values"
+                        >
+                            <input
+                                type="checkbox"
+                                [name]="value.id"
+                                [checked]="value.checked"
+                                (change)="onChangeNote(value.id)"
+                            />
+                            {{ value?.name?.vi }}
+                            <span></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="submit"
+            class="btn btn-sm btn-info"
+        >
+            Cập nhật
+        </button>
+    </div>
+</form>

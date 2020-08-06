@@ -1,0 +1,374 @@
+<div class="dunnio-grid__item dunnio-grid__item--fluid dunnio-grid dunnio-grid--hor">
+    <dunnio-header-order-warranty
+        [loading]="loading?.item"
+        [(data)]="model"
+        [(cart)]="carts"
+        (callback)="onCheckEvent($event)"
+    >
+    </dunnio-header-order-warranty>
+    <div class="dunnio-main">
+        <div class="row">
+            <div class="col-lg-9">
+                <dunnio-table-data-order-warranty
+                    [(data)]="model"
+                    (callback)="onCheckEvent($event)"
+                >
+                </dunnio-table-data-order-warranty>
+            </div>
+            <div class="col-lg-3">
+                <dunnio-information-order-create-warranty
+                    (callback)="onCheckEvent($event)"
+                    [(data)]="model"
+                >
+                </dunnio-information-order-create-warranty>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- begin:: modal thêm sản phẩm bảo hành, sửa chữa -->
+<div
+    class="modal fade"
+    id="dunnio_create_item_warranties"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+>
+    <div
+        class="modal-dialog modal-lg"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-body dunnio-padding-0">
+                <dunnio-item-warranties-partial
+                    (callback)="onSelectItem($event)"
+                    [data]="model"
+                >
+                </dunnio-item-warranties-partial>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end:: modal thêm sản phẩm bảo hành, sửa chữa -->
+
+<!-- begin:: modal chi tiết sản phẩm bảo hành sửa chữa -->
+<div
+    class="modal fade"
+    id="dunnio_detail_item_warranties"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+>
+    <div
+        class="modal-dialog modal-lg"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-body dunnio-padding-0">
+                <dunnio-item-detail-warranties-partial
+                    [data]="model"
+                    [itemId]="itemId"
+                    (callback)="onUpdateItem($event)"
+                >
+                </dunnio-item-detail-warranties-partial>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end:: modal chi tiết sản phẩm bảo hành sửa chữa -->
+<!-- modal discount order-->
+<div
+    class="modal fade"
+    id="dunnio_modal_discount_order_service"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Khuyến mại
+                </h4>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                >&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group dunnio-border-giftcode">
+                    <div class="c-radio-list row">
+                        <div class="col-12 row mb-3">
+                            <label class="c-radio c-radio--success col-4">
+                                <input
+                                    type="radio"
+                                    name="promotion_type"
+                                    value="1"
+                                    [(ngModel)]="model.promotion_type"
+                                    (change)="onChangePromotionType()"
+                                />
+                                Chiết khấu:
+                                <span></span>
+                            </label>
+                            <div
+                                class="col-2"
+                                style="left: 15px;"
+                            >
+                                <button
+                                    (click)="onChangeDiscount(true)"
+                                    [ngStyle]="{'background': !isDiscount ? '#FFFFFF': '#B8C0CD' }"
+                                    class="dunnio-icon-vnd"
+                                >VNĐ</button>
+                            </div>
+                            <div class="col-1">
+                                <button
+                                    class="dunnio-icon-percent"
+                                    [ngStyle]="{'background': !isDiscount ? '#B8C0CD':'#FFFFFF' }"
+                                    (click)="onChangeDiscount(false)"
+                                >%</button>
+                            </div>
+                            <div class="col-5">
+                                <input
+                                    *ngIf="!isDiscount"
+                                    name="discount_value"
+                                    class="form-control"
+                                    [options]="{ min: 0, max: 100 }"
+                                    (ngModelChange)="onChangeTextDiscount($event)"
+                                    [(ngModel)]="model.discount.value"
+                                    [disabled]="model.promotion_type != 1"
+                                    style="height: 25px;"
+                                    currencyMask
+                                >
+                                <input
+                                    *ngIf="isDiscount"
+                                    name="discount_value"
+                                    class="form-control"
+                                    [options]="{ min: 0 }"
+                                    (ngModelChange)="onChangeTextDiscount($event)"
+                                    [(ngModel)]="model.discount.value"
+                                    [disabled]="model.promotion_type != 1"
+                                    style="height: 25px;"
+                                    currencyMask
+                                >
+                            </div>
+                        </div>
+                        <div class="col-12 row mb-3">
+                            <label class="c-radio c-radio--success col-7">
+                                <input
+                                    type="radio"
+                                    name="promotion_type"
+                                    value="2"
+                                    (change)="onChangePromotionType()"
+                                    [(ngModel)]="model.promotion_type"
+                                />
+                                Giftcode: {{model.giftcode.id ? model.giftcode.id :''}} {{model.isValueGiftCode}}
+                                <span></span>
+                            </label>
+                            <div class="col-5">
+                                <input
+                                    [disabled]="model.promotion_type != 2"
+                                    class="form-control"
+                                    [(ngModel)]="model.giftcode.key"
+                                    (input)="onSearchGiftCode($event.target.value)"
+                                    style="height: 25px;"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="row"
+                    style="padding-bottom: 20px; border: 0px; border-bottom: solid 1px black;"
+                >
+                    <div class="col-6 pt-3 pb-3">
+                        Giá trị khuyến mại:
+                    </div>
+                    <div class="col-6 pt-3 pb-3 dunnio-align-right">
+                        {{model?.discount?.price | number}}đ
+                    </div>
+                    <div class="col-6">
+                        Chiết khấu rank:
+                    </div>
+                    <div class="col-6 dunnio-align-right">
+                        {{ rank.price | number}}đ
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 pt-3 pb-3">
+                        <b>Tổng giảm giá</b>
+                    </div>
+                    <div class="col-6 pt-3 pb-3 dunnio-align-right">
+                        <b style="color: #4CAF50;">
+                            {{model?.total_discount | number}}đ
+                        </b>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div
+    class="modal fade"
+    id="dunnio_modal_payment_order_service"
+    role="dialog"
+>
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    Khách thanh toán
+                </h4>
+                <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                >&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row dunnio-margin-b-20">
+                    <div class="col-6 dunnio-padding-t-10">
+                        <b>Số tiền</b>
+                    </div>
+                    <div class="col-6 dunnio-align-right">
+                        <input
+                            (ngModelChange)="onChangeTotalPaid($event)"
+                            class="form-control dunnio-align-right"
+                            name="payments_price_value2"
+                            [(ngModel)]="model.payments.price.value2"
+                            #payments_price_value2="ngModel"
+                        >
+                    </div>
+                </div>
+                <div class="row dunnio-margin-b-20">
+                    <div class="col-5 dunnio-padding-t-10">
+                        <b>Điểm tích lũy:</b> {{model?.customer?.total_point || 0}}
+                    </div>
+                    <div class="col-1 dunnio-padding-t-5">
+                        <label class="c-checkbox c-checkbox--success">
+                            <input
+                                (click)="onChangePointAction()"
+                                type="checkbox"
+                                [checked]="model.payments.point.active"
+                            />
+                            <span></span>
+                        </label>
+                    </div>
+                    <div class="col-6">
+                        <input
+                            [disabled]="!model.customer || !model.customer.id"
+                            class="form-control dunnio-align-right"
+                            name="total_coin"
+                            [(ngModel)]="model.payments.point.value"
+                            #total_coin="ngModel"
+                            (ngModelChange)="onChangeTextPoint($event)"
+                            currencyMask
+                            [options]="{ min: 0, max:model?.customer?.total_point }"
+                        >
+                    </div>
+                </div>
+                <div class="row dunnio-margin-b-20">
+                    <div class="col-4">
+                        <button
+                            class="btn btn-payment-method"
+                            (click)="onClickPayment(1)"
+                        >
+                            Tiền mặt
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button
+                            class="btn btn-payment-method"
+                            (click)="onClickPayment(2)"
+                        >
+                            Thẻ
+                        </button>
+                    </div>
+                    <div class="col-4">
+                        <button
+                            class="btn btn-payment-method"
+                            (click)="onClickPayment(3)"
+                        >
+                            Chuyển khoản
+                        </button>
+                    </div>
+                </div>
+                <div class="row dunnio-margin-b-20">
+                    <div class="col-6">
+                        <b>Khách cần trả:</b>
+                    </div>
+                    <div
+                        class="col-6 dunnio-align-right"
+                        style="color: #4CAF50;"
+                    >
+                        {{(model?.total_price | number) || 0}}
+                    </div>
+                </div>
+                <div
+                    *ngIf="model?.payments?.price?.active"
+                    class="row dunnio-margin-b-20"
+                >
+                    <div class="col-1">
+                        <img
+                            src="./assets/media/icons/group.svg"
+                            (click)="handleEventRemoveMethod()"
+                        >
+                    </div>
+                    <div class="col-3">
+                        {{
+                        model?.payments?.price?.method === 1 ? 'Tiền mặt' 
+                        : model?.payments?.price?.method === 2 ? 'Thẻ' 
+                        : 'Chuyển khoản'
+                        }}
+                    </div>
+                    <div
+                        class="col-6"
+                        style="top: -10px;"
+                    >
+                        <select
+                            *ngIf="model.payments.price.method !== 1"
+                            class="form-control"
+                            aria-placeholder="Tài khoản nhận..."
+                        >
+                            <option
+                                [value]="card"
+                                *ngFor="let card of cardsPayment"
+                                (click)="onChangecardsPayment(card)"
+                            >
+                                {{ card?.name }}: {{ card?.number }}
+                            </option>
+                        </select>
+                    </div>
+                    <div
+                        class="col-2 dunnio-align-right"
+                        style="color: #4CAF50;"
+                    >
+                        {{(model?.payments?.price?.value | number) || 0}}
+                    </div>
+                </div>
+                <div class="row dunnio-margin-b-20">
+                    <div class="col-6">
+                        <b>Khách thanh toán:</b>
+                    </div>
+                    <div class="col-6 dunnio-align-right">
+                        {{(model?.payments?.price?.value | number) || 0}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    data-dismiss="modal"
+                    (click)="handleEventPayment()"
+                >
+                    <img src="./assets/media/icons/check-light.svg">
+                    Xong
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

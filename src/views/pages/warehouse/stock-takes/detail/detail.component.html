@@ -1,0 +1,225 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <a
+                        routerLink="/inventory/stock-takes"
+                        class="back text-dark"
+                    >
+                        &lt; Kiểm kho
+                    </a>
+                    <div class="d-flex">
+                        <h4 class="mr-3">Mã phiếu: {{ model?.id }}</h4>
+                        <span
+                            class="alert alert--sm alert-warning"
+                            *ngIf="model?.status === statuses.CHECKING"
+                        >{{ model?.status_name }}</span>
+                        <span
+                            class="alert alert--sm alert-success"
+                            *ngIf="model?.status === statuses.CONFIRMED"
+                        >{{ model?.status_name }}</span>
+                        <span
+                            class="alert alert--sm alert-danger"
+                            *ngIf="model?.status === statuses.CANCELLED"
+                        >{{ model?.status_name }}</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <form
+                class="form row"
+                autocomplete="off"
+                (ngSubmit)="onUpdate()"
+            >
+                <div class="col-md-8">
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <div class="form-group mb-0 row">
+                                <label
+                                    class="col-lg-12 font-weight-bold"
+                                    style="font-size: 20px;"
+                                >
+                                    Thông tin sản phẩm
+                                </label>
+                            </div>
+                        </div>
+                        <div class="card-list">
+                            <div
+                                class="table-responsive-lg"
+                                style="min-height: 400px;"
+                            >
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">
+                                                Mã SKU
+                                            </th>
+                                            <th class="text-center">
+                                                Tên hàng
+                                            </th>
+                                            <th class="text-center">
+                                                Nhóm hàng
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                style="width: 100px;"
+                                            >
+                                                Tồn kho
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                style="width: 100px;"
+                                            >
+                                                Số lượng
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                style="width: 100px;"
+                                            >
+                                                SL lệch
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            scope="row"
+                                            *ngFor="let item of model.items"
+                                        >
+                                            <td class="text-center">
+                                                {{item.id}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{item.name}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{item?.group === 'product' ? 'Sản phẩm' : 'Nguyên phụ liệu'}}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ item?.total_quantity | number }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ item?.total_actual | number }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ item?.total_adjustment | number }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="card card--border"
+                        *ngIf="model.status === statuses.CHECKING"
+                    >
+                        <div class="card-body row">
+                            <div class="col-md-8 font-weight-bold">
+                                Cân bằng kho
+                            </div>
+                            <div class="col-md-4 text-right">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-info"
+                                    (click)="onConfirm()"
+                                >
+                                    Cân bằng kho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông phiếu kiểm kho
+                            </h6>
+                            <div class="form-group row">
+                                <label class="col-md-4">Kho kiểm:</label>
+                                <label class="col-md-8 text-right">{{ model?.store?.name }}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4">Nhân viên:</label>
+                                <label class="col-md-8 text-right">{{ model?.created_by?.name }}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4">Ngày tạo:</label>
+                                <label class="col-md-8 text-right">{{ model?.created_at }}</label>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4">Ngày cân bằng:</label>
+                                <label class="col-md-8 text-right">{{ model?.confirmed_at }}</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Ghi chú</label>
+                                <textarea
+                                    name="note"
+                                    class="form-control"
+                                    placeholder="nhập ghi chú"
+                                    [(ngModel)]="model.note"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- begin:: form foot -->
+                <div
+                    class="col-md-12 text-right"
+                    style="border-top: 1px solid #707070; padding: 20px 0;"
+                >
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-print mr-2"
+                        (click)="onPrint()"
+                    >
+                        In phiếu
+                    </button>
+                    <button
+                        type="button"
+                        [outsideClick]="true"
+                        [popover]="popTemplate"
+                        class="btn btn-sm btn-danger mr-2"
+                        popoverTitle="Lí do hủy phiếu nhập hàng"
+                        *ngIf="model.status === statuses.CHECKING"
+                    >
+                        <ng-template
+                            #popTemplate
+                            style="height: 250px;"
+                        >
+                            <div class="form-group">
+                                <textarea
+                                    name="reason"
+                                    class="form-control"
+                                    [(ngModel)]="model.reason"
+                                ></textarea>
+                            </div>
+                            <div class="form-group text-right">
+                                <button
+                                    type="button"
+                                    class="btn btn-sm btn-success mr-2"
+                                    (click)="onCancel()"
+                                >
+                                    Xác nhận
+                                </button>
+                            </div>
+                        </ng-template>
+                        Hủy phiếu
+                    </button>
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-info"
+                    >
+                        Cập nhật
+                    </button>
+                </div>
+                <!-- end:: form foot -->
+            </form>
+        </section>
+    </div>
+</div>

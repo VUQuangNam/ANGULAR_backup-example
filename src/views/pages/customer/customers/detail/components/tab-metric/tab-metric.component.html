@@ -1,0 +1,115 @@
+<div class="card">
+    <div class="card-body row m-0">
+        <!-- begin:: số đo thân trên -->
+        <div class="col-md-3">
+            <h4 style="padding-bottom: 10px;">
+                Số đo thân trên
+            </h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 250px;">Số đo</th>
+                        <th style="width: 100px;">Giá trị</th>
+                        <th class="text-center">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let metric of topMetrics">
+                        <td scope="row">
+                            {{ metric?.name?.vi }}
+                        </td>
+                        <td class="text-center">
+                            {{ metric?.values[0]? metric?.values[0].value : 0 }}
+                        </td>
+                        <td class="text-center">
+                            <a
+                                href="javascript:;"
+                                (click)="onShowMetricHistory(metric)"
+                            >
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- begin:: số đo thân dưới -->
+        <div class="col-md-3">
+            <h4 style="padding-bottom: 10px;">
+                Số đo thân dưới
+            </h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Số đo</th>
+                        <th scope="col">Giá trị</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let metric of bottomMetrics">
+                        <td scope="row">
+                            {{ metric?.name?.vi }}
+                        </td>
+                        <td class="text-center">
+                            {{ metric?.values[0]? metric?.values[0].value : 0 }}
+                        </td>
+                        <td class="text-center">
+                            <a
+                                href="javascript:;"
+                                (click)="onShowMetricHistory(metric)"
+                            >
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- begin:: lưu ý cơ thể -->
+        <div class="col-md-3">
+            <h4 style="padding-bottom: 10px;">
+                Lưu ý cơ thể
+            </h4>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Số đo</th>
+                        <th scope="col">Giá trị</th>
+                        <th scope="col">#</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let note of bodyNotes">
+                        <td scope="row">
+                            {{ note?.name?.vi }}
+                        </td>
+                        <td class="text-center">
+                            <div *ngFor="let value of note?.values">
+                                <span *ngIf="value.checked"> {{ value.name?.vi }} </span>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <a
+                                href="javascript:;"
+                                (click)="onShowNoteHistory(note)"
+                            >
+                                <i class="fa fa-info-circle"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- begin:: ảnh khách hàng -->
+        <div class="col-md-3">
+            <h4 style="padding-bottom: 10px;">
+                Ảnh khách hàng
+            </h4>
+        </div>
+    </div>
+</div>

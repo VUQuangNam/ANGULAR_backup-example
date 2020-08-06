@@ -1,0 +1,21 @@
+.c-scroll {
+    /* width */
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: c-base-color(gray, 3); 
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: c-base-color(gray, 2);
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: c-base-color(gray, 1);
+    }
+}

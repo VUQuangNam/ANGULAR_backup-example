@@ -1,0 +1,128 @@
+// Page container
+$c-page-container-width: 1380px; //  fixed page width
+$c-page-fluid-container-padding: 60px; // fluid page padding
+
+body {
+    background-color: c-base-color(light, 1);
+
+    .c-container {
+        width: 100%;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
+
+        // content
+        .c-warpper {
+            -ms-box-orient: horizontal;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -moz-flex;
+            display: flex;
+
+            &__left {
+                width: 256px;
+                margin-top: 22px;
+                margin-right: 20px;
+                margin-bottom: 20px;
+            }
+
+            &__right  {
+                width: 100%;
+                margin-top: 22px;
+                min-height: 400px;
+                position: relative;
+                margin-bottom: 20px;
+
+                .c-right__header {
+                    min-height: 56px;
+
+                    .back {
+                        font-size: 14px;
+                    }
+
+                    h4 {
+                        font-size: 24px;
+                        font-weight: bold;
+                    }
+
+                    h6 {
+                        font-size: 20px;
+                        font-weight: bold;
+                    }
+                }
+
+                .c-right__filter {
+                    min-height: 56px;
+                    display: flex;
+
+                    .filter--left {
+                        width: 88%;
+                        position: relative;
+                    }
+
+                    .filter--right {
+                        width: 12%;
+                        position: relative;
+                    }
+                }
+            }
+        }
+    }
+
+    .c-container--fluid {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+// Desktop(576px and above)
+@include c-media-above(sm) {
+
+    // Container 
+    .c-container {
+        max-width: 546px;
+    }
+}
+
+// Desktop(768px and above)
+@include c-media-above(md) {
+
+    // Container 
+    .c-container {
+        max-width: 738px;
+    }
+}
+
+// Desktop(1024px and above)
+@include c-media-above(lg) {
+
+    // Container 
+    .c-container {
+        max-width: 994px;
+    }
+}
+
+// Desktop(1399px and above)
+@include c-media-above(xl) {
+
+    // Container 
+    .c-container {
+        max-width: 1369px;
+    }
+}
+
+// Desktop(1600px and above)
+@include c-media-above(xxl) {
+
+    // Container 
+    .c-container {
+        max-width: 1570px;
+    }
+}
+
+@include c-media-below(xl) {
+    .c-container {
+        max-width: 100%
+    }
+}

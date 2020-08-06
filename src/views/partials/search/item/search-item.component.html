@@ -1,0 +1,144 @@
+<div class="card card--border">
+    <div class="card-body">
+        <div class="form-group mb-0 row">
+            <label
+                class="col-lg-12 font-weight-bold"
+                style="font-size: 20px;"
+            >
+                Thông tin sản phẩm
+            </label>
+            <div class="col-lg-12">
+                <ng-select
+                    name="search"
+                    bindValue="id"
+                    bindLabel="id"
+                    [items]="searchData"
+                    [loading]="loading"
+                    (search)="onSearch($event)"
+                    *ngIf="isView === false"
+                    placeholder="Tìm kiếm sản phẩm"
+                >
+                    <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                    >
+                        <div
+                            class="row"
+                            (click)="onSelectItem(item)"
+                        >
+                            <div class="col-2">
+                                <b>Mã:</b> {{item?.id}}
+                            </div>
+                            <div class="col-4">
+                                <b>Tên hàng hóa:</b> {{item?.name}}
+                            </div>
+                            <div class="col-3">
+                                <b>Nhóm hàng:</b> {{item?.group === 'product' ? 'Sản phẩm' : 'Nguyên phụ liệu'}}
+                            </div>
+                            <div class="col-3">
+                                <b>Số lượng:</b> {{item.current_quantity}}
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="card-list">
+        <div
+            class="table-responsive-lg"
+            style="min-height: 400px;"
+        >
+            <table class="table">
+                <thead class="thead-light">
+                    <tr>
+                        <th class="text-center">
+                            Mã SKU
+                        </th>
+                        <th class="text-center">
+                            Tên hàng
+                        </th>
+                        <th class="text-center">
+                            Nhóm hàng
+                        </th>
+                        <th
+                            class="text-center"
+                            *ngIf="isView === false"
+                        >
+                            Tồn kho
+                        </th>
+                        <th
+                            class="text-center"
+                            style="width: 100px;"
+                        >
+                            Số lượng
+                        </th>
+                        <th class="text-center">
+                            Tổng tiền
+                        </th>
+                        <th
+                            class="text-center"
+                            *ngIf="isView === false"
+                        >
+                            #
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        scope="row"
+                        *ngFor="let item of items"
+                    >
+                        <td class="text-center">
+                            {{item.id}}
+                        </td>
+                        <td class="text-center">
+                            {{item.name}}
+                        </td>
+                        <td class="text-center">
+                            {{item?.group === 'product' ? 'Sản phẩm' : 'Nguyên phụ liệu'}}
+                        </td>
+                        <td
+                            class="text-center"
+                            *ngIf="isView === false"
+                        >
+                            {{item.current_quantity}} ({{item.properties.unit}})
+                        </td>
+                        <td class="text-center">
+                            <input
+                                type="number"
+                                class="form-control"
+                                [name]="item?.id"
+                                [value]="item?.total_quantity"
+                                (change)="onChangeQuantity($event)"
+                                [disabled]="isView"
+                            />
+                        </td>
+                        <td class="text-center">
+                            {{item.total_price || 0 | number}}
+                        </td>
+                        <td
+                            class="text-center"
+                            *ngIf="isView === false"
+                        >
+                            <a
+                                class="text-dark"
+                                href="javascript:void(0)"
+                                (click)="onRemoveItem(item?.id)"
+                            >
+                                <i class="fa fa-trash-alt"></i>
+                                <!-- xóa hàng hóa -->
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card-body row">
+        <div class="col-md-8 font-weight-bold text-align-right">Tổng số lượng:</div>
+        <div class="col-md-1 text-center">{{ quantity || 0}}</div>
+    </div>
+</div>

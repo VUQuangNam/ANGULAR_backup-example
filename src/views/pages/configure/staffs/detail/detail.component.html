@@ -1,0 +1,278 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <form
+            class="form"
+            (ngSubmit)="onUpdate()"
+            autocomplete="off"
+        >
+            <section class="c-right__header">
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <a
+                            routerLink="/setting/staffs"
+                            class="back text-dark"
+                        >
+                            &lt; Quản lý nhân sự
+                        </a>
+                        <h4>Thông tin nhân sự</h4>
+                    </div>
+                    <div class="col-md-4 text-right">
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-info"
+                        >
+                            Cập nhật
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="c-right__content">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                            Thông tin cơ bản
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="">
+                                        Mã nhân viên:
+                                    </label>
+                                    <input
+                                        name="id"
+                                        type="text"
+                                        class="form-control "
+                                        [(ngModel)]="model.id"
+                                        [disabled]="model.id"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Chi nhánh:
+                                    </label>
+                                    <ng-select
+                                        multiple="true"
+                                        bindLabel="name"
+                                        name="stores"
+                                        [items]="stores"
+                                        [(ngModel)]="model.stores"
+                                        placeholder="Chọn chi nhánh"
+                                    >
+                                    </ng-select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Chức vụ:
+                                    </label>
+                                    <ng-select
+                                        bindValue="id"
+                                        name="role_id"
+                                        bindLabel="name"
+                                        [items]="roles"
+                                        [(ngModel)]="model.role_id"
+                                        (ngModelChange)="onChangeRole($event)"
+                                        placeholder="Chọn chức vụ"
+                                    >
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="">
+                                        Họ và tên
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        class="form-control"
+                                        [(ngModel)]="model.name"
+                                        placeholder="Nhập họ và tên"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Số điện thoại
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        class="form-control "
+                                        [(ngModel)]="model.phone"
+                                        placeholder="Nhập số điện thoại"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        class="form-control "
+                                        [(ngModel)]="model.email"
+                                        placeholder="Nhập địa chỉ email"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Ngày sinh:
+                                    </label>
+                                    <input
+                                        bsDatepicker
+                                        name="birthday"
+                                        class="form-control"
+                                        [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                                        [(ngModel)]="model.birthday"
+                                        placeholder="dd/mm/yyyy"
+                                    >
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="">
+                                        Địa chỉ:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        class="form-control "
+                                        [(ngModel)]="model.address"
+                                        placeholder="Nhập địa chỉ"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Giới tính:
+                                    </label>
+                                    <select
+                                        type="text"
+                                        name="gender"
+                                        class="form-control "
+                                        [(ngModel)]="model.gender"
+                                        placeholder="Chọn giới tính"
+                                    >
+                                        <option [value]="undefined">Lựa chọn giới tính</option>
+                                        <option value="male">Nam</option>
+                                        <option value="female">Nữ</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Nhập mật khẩu:
+                                    </label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        class="form-control"
+                                        [(ngModel)]="model.password"
+                                        placeholder="*****"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Chi chú:
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="note"
+                                        class="form-control"
+                                        [(ngModel)]="model.note"
+                                        placeholder="Nhập ghi chú"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 border-top pt-4">
+                                <h6 style="font-size: 20px; font-weight: bold;">
+                                    Phân quyền chi tiết
+                                </h6>
+                                <small class="text-muted">
+                                    Cho phép phân quyền hạn chi tiết của chức vụ đối với dữ liệu của hệ thống.
+                                </small>
+                            </div>
+                            <div class="col-md-12 mt-4 p-0">
+                                <div
+                                    class="table-responsive-lg"
+                                    style="min-height: 400px;"
+                                >
+                                    <table class="table table-bordered">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center">
+                                                    Chức năng
+                                                </th>
+                                                <th class="text-center">
+                                                    Truy cập
+                                                </th>
+                                                <th class="text-center">
+                                                    Tạo mới
+                                                </th>
+                                                <th class="text-center">
+                                                    Cập nhật
+                                                </th>
+                                                <th class="text-center">
+                                                    Xóa
+                                                </th>
+                                                <th class="text-center">
+                                                    Nhập file
+                                                </th>
+                                                <th class="text-center">
+                                                    Xuất file
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let group of permissions">
+                                            <tr class="bg-light">
+                                                <td>
+                                                    + {{ group.name }}
+                                                </td>
+                                                <td class="text-center">
+                                                    <label class="c-checkbox c-checkbox--success">
+                                                        <input
+                                                            type="checkbox"
+                                                            [name]="group?.id"
+                                                            [value]="group?.id"
+                                                            [checked]="group?.checked"
+                                                            (change)="onChangeCheckboxParent(group?.id)"
+                                                        />
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr *ngFor="let menu of group.menus">
+                                                <td class="pl-5"> - {{ menu.name }} </td>
+                                                <td
+                                                    class="text-center"
+                                                    *ngFor="let permission of menu.permissions"
+                                                >
+                                                    <label class="c-checkbox c-checkbox--success">
+                                                        <input
+                                                            type="checkbox"
+                                                            [name]="permission?.id"
+                                                            [value]="permission?.id"
+                                                            [checked]="permission?.checked"
+                                                            (change)="onChangeCheckboxChild(group?.id, permission?.id)"
+                                                        />
+                                                        <span></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

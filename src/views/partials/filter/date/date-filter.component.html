@@ -1,0 +1,28 @@
+<div class="c-radio-inline">
+    <label
+        *ngFor="let item of filters"
+        class="c-radio c-radio--success mr-3 pl-4"
+    >
+        <input
+            name="radio"
+            type="radio"
+            [value]="item?.value"
+            [checked]="item?.active"
+            (click)="onChange(item?.value)"
+        >
+        {{item?.name}}
+        <span></span>
+    </label>
+
+    <label class="c-radio c-radio--success mr-3 pl-4">
+        <input
+            type="radio"
+            name="radio"
+            #drp="bsDaterangepicker"
+            (bsValueChange)="onSelectDate($event)"
+            [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY'}"
+            bsDaterangepicker
+        >
+        Khác <span></span>
+    </label>
+</div>

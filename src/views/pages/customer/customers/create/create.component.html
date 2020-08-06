@@ -1,0 +1,226 @@
+<div class="modal-header">
+    <h5 class="modal-title">Thêm mới khách hàng</h5>
+    <button
+        type="button"
+        class="close"
+        (click)="onClose()"
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form
+    class="validated"
+    (ngSubmit)="onCreate()"
+    autocomplete="off"
+>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-2">
+                <app-image-single
+                    category="customers"
+                    (callback)="handleImageCallback($event)"
+                >
+                </app-image-single>
+            </div>
+            <div class="col-md-10">
+                <div class="form-group row">
+                    <label class="col-lg-2 col-form-label-md text-left">Loại khách hàng:</label>
+                    <div class="col-lg-4">
+                        <div class="c-radio-inline">
+                            <label class="c-radio c-radio--success">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="individual"
+                                    [(ngModel)]="model.type"
+                                />
+                                Khách hàng
+                                <span></span>
+                            </label>
+                            <label class="c-radio c-radio--success">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="company"
+                                    [(ngModel)]="model.type"
+                                />
+                                Doanh nghiệp
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Người giới thiệu:</label>
+                    <div class="col-lg-4">
+                        <ng-select
+                            name="friend"
+                            bindValue="id"
+                            bindLabel="name"
+                            [items]="customers"
+                            [(ngModel)]="model.friend"
+                            (search)="onSearch($event)"
+                            placeholder="chọn người giới thiệu"
+                        >
+                        </ng-select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Tên khách hàng:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            [(ngModel)]="model.name"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Chi nhánh:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="store"
+                            class="form-control"
+                            [(ngModel)]="store"
+                        >
+                            <option [value]={}>
+                                Chọn chi nhánh
+                            </option>
+                            <option
+                                [ngValue]="store"
+                                *ngFor="let store of stores"
+                            >
+                                {{ store?.name}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Số điện thoại:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            [(ngModel)]="model.phone"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Nguồn khách hàng:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="source"
+                            class="form-control"
+                            [(ngModel)]="model.source"
+                        >
+                            <option
+                                [value]="source.id"
+                                *ngFor="let source of sources"
+                            >
+                                {{ source?.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Địa chỉ:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            [(ngModel)]="model.address"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Mối quan hệ:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="relation"
+                            class="form-control"
+                            [(ngModel)]="model.relation"
+                        >
+                            <option
+                                [value]="relation.id"
+                                *ngFor="let relation of relations"
+                            >
+                                {{ relation?.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Email:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="email"
+                            class="form-control"
+                            [(ngModel)]="model.email"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Rank:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="rank_id"
+                            class="form-control"
+                            [(ngModel)]="model.rank_id"
+                        >
+                            <option [value]="null">
+                                Chọn rank
+                            </option>
+                            <option
+                                [value]="rank.id"
+                                *ngFor="let rank of ranks"
+                            >
+                                {{ rank?.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Sinh nhật:</label>
+                    <div class="col-lg-4">
+                        <input
+                            bsDatepicker
+                            name="birthday"
+                            class="form-control"
+                            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                            [(ngModel)]="model.birthday"
+                        >
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Ghi chú:</label>
+                    <div class="col-lg-4">
+                        <textarea
+                            name="note"
+                            class="form-control"
+                            [(ngModel)]="model.note"
+                        ></textarea>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Giới tính:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="gender"
+                            class="form-control"
+                            [(ngModel)]="model.gender"
+                        >
+                            <option value="male">
+                                Nam
+                            </option>
+                            <option value="female">
+                                Nữ
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="reset"
+            class="btn btn-sm btn-secondary mr-2"
+        >
+            <img src="./assets/media/icons/refresh-light.svg" />
+            Làm mới
+        </button>
+        <button
+            type="submit"
+            class="btn btn-sm btn-success"
+        >
+            <img src="./assets/media/icons/save-light.svg" />
+            Thêm mới
+        </button>
+    </div>
+</form>

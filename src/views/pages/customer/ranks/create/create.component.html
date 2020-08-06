@@ -1,0 +1,123 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <form class="form">
+            <section class="c-right__header">
+                <div class="row mt-3 mb-3">
+                    <div class="col-md-8">
+                        <a
+                            class="back text-dark"
+                            routerLink="/customer-rank"
+                        >
+                            &lt; Rank khách hàng
+                        </a>
+                        <h4>Tạo Rank Khách Hàng</h4>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-secondary mr-2"
+                            type="reset"
+                        >
+                            Bỏ qua
+                        </button>
+                        <button
+                            style="width: 48%"
+                            class="btn btn-sm btn-success"
+                            (click)="onCreate()"
+                        >
+                            Lưu Lại
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="c-right__content">
+                <div class="row">
+                    <div class="col-md-8">
+                        <app-search-user
+                            [members]="[]"
+                            (callback)="handleSeachChange($event)"
+                        >
+                        </app-search-user>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card card--border">
+                            <div class="card-body">
+                                <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                    Thông tin
+                                </h6>
+                                <div class="form-group">
+                                    <label>
+                                        Mã rank
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        name="id"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="nhập mã"
+                                        [(ngModel)]="model.id"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        Tên rank
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        class="form-control"
+                                        placeholder="nhập tên nhóm"
+                                        [(ngModel)]="model.name"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label>Ghi chú</label>
+                                    <textarea
+                                        name="note"
+                                        class="form-control"
+                                        placeholder="nhập ghi chú"
+                                        [(ngModel)]="model.note"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card card--border">
+                            <div class="card-body">
+                                <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                    Điều kiện
+                                </h6>
+                                <div class="form-group">
+                                    <label class="">
+                                        Tổng hóa đơn lơn hơn hoặc bằng (VND)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="min_price"
+                                        class="form-control"
+                                        placeholder="nhấp điều kiện"
+                                        [(ngModel)]="model.min_price"
+                                    />
+                                </div>
+                                <div class="form-group">
+                                    <label class="">
+                                        Phần trăm chiết khẩu được hưởng (%)
+                                    </label>
+                                    <input
+                                        type="number"
+                                        name="discount"
+                                        class="form-control"
+                                        placeholder="nhập chiết khấu"
+                                        [(ngModel)]="model.discount"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </form>
+    </div>
+</div>

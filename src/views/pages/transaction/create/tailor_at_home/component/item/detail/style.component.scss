@@ -1,0 +1,10 @@
+select::-ms-expand {
+    display: none;
+}
+
+.select-quick {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    background-color: white !important;
+}

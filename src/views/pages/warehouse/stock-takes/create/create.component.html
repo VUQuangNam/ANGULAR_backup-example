@@ -1,0 +1,210 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <a
+                        routerLink="/inventory/stock-takes"
+                        class="back text-dark"
+                    >
+                        &lt; Kiểm kho
+                    </a>
+                    <h4>Tạo đơn kiểm kho</h4>
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <form
+                class="form row"
+                autocomplete="off"
+                (ngSubmit)="onCreate()"
+            >
+                <div class="col-md-8">
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <div class="form-group mb-0 row">
+                                <label
+                                    class="col-lg-12 font-weight-bold"
+                                    style="font-size: 20px;"
+                                >
+                                    Thông tin sản phẩm
+                                </label>
+                                <div class="col-lg-12">
+                                    <ng-select
+                                        name="search"
+                                        bindValue="id"
+                                        bindLabel="name"
+                                        [items]="searchData"
+                                        [loading]="loading"
+                                        (search)="onSearch($event)"
+                                        placeholder="Tìm kiếm sản phẩm"
+                                    >
+                                        <ng-template
+                                            ng-option-tmp
+                                            let-item="item"
+                                            let-index="index"
+                                        >
+                                            <div
+                                                class="row"
+                                                (click)="onSelectItem(item)"
+                                            >
+                                                <div class="col-2">
+                                                    <b>Mã:</b> {{item?.id}}
+                                                </div>
+                                                <div class="col-4">
+                                                    <b>Tên hàng hóa:</b> {{item?.name}}
+                                                </div>
+                                                <div class="col-3">
+                                                    <b>Nhóm hàng:</b>
+                                                    {{item?.group === 'product' ? 'Sản phẩm' : 'Nguyên phụ liệu'}}
+                                                </div>
+                                                <div class="col-3">
+                                                    <b>Số lượng:</b> {{item.total_quantity}}
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-list">
+                            <div
+                                class="table-responsive-lg"
+                                style="min-height: 400px;"
+                            >
+                                <table class="table">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="text-center">
+                                                Mã SKU
+                                            </th>
+                                            <th class="text-center">
+                                                Tên hàng
+                                            </th>
+                                            <th class="text-center">
+                                                Nhóm hàng
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                style="width: 100px;"
+                                            >
+                                                Tồn kho
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                style="width: 100px;"
+                                            >
+                                                Số lượng
+                                            </th>
+                                            <th
+                                                class="text-center"
+                                                style="width: 100px;"
+                                            >
+                                                SL lệch
+                                            </th>
+                                            <th class="text-center">
+                                                #
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            scope="row"
+                                            *ngFor="let item of model.items"
+                                        >
+                                            <td class="text-center pt-4">
+                                                {{item.id}}
+                                            </td>
+                                            <td class="text-center pt-4">
+                                                {{item.name}}
+                                            </td>
+                                            <td class="text-center pt-4">
+                                                {{item?.group === 'product' ? 'Sản phẩm' : 'Nguyên phụ liệu'}}
+                                            </td>
+                                            <td class="text-center pt-4">
+                                                {{ item?.total_quantity | number }}
+                                            </td>
+                                            <td class="mt-2">
+                                                <input
+                                                    type="number"
+                                                    class="form-control text-center "
+                                                    [name]="item?.id"
+                                                    [value]="item?.total_actual"
+                                                    (change)="onChangeTotalActual($event)"
+                                                />
+                                            </td>
+                                            <td class="text-center pt-4">
+                                                {{ item?.total_adjustment | number }}
+                                            </td>
+                                            <td class="text-center pt-4">
+                                                <a
+                                                    class="text-dark"
+                                                    href="javascript:void(0)"
+                                                    (click)="onRemoveItem(item?.id)"
+                                                >
+                                                    <i class="fa fa-trash-alt"></i>
+                                                    <!-- xóa hàng hóa -->
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card--border">
+                        <div class="card-body">
+                            <h6 style="font-size: 20px; font-weight: bold; margin-bottom: 20px">
+                                Thông phiếu kiểm kho
+                            </h6>
+                            <div class="form-group">
+                                <label>Chọn kho</label>
+                                <select
+                                    name="store"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="kho nhập"
+                                    [(ngModel)]="model.store"
+                                >
+                                    <option
+                                        [ngValue]="store"
+                                        *ngFor="let store of stores"
+                                    >
+                                        {{store?.name}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Ghi chú</label>
+                                <textarea
+                                    name="note"
+                                    class="form-control"
+                                    placeholder="nhập ghi chú"
+                                    [(ngModel)]="model.note"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- begin:: form foot -->
+                <div
+                    class="col-md-12 text-right"
+                    style="border-top: 1px solid #707070; padding: 20px 0;"
+                >
+                    <button
+                        type="submit"
+                        class="btn btn-sm btn-success"
+                    >
+                        Thêm mới
+                    </button>
+                </div>
+                <!-- end:: form foot -->
+            </form>
+        </section>
+    </div>
+</div>

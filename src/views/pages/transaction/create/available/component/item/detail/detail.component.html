@@ -1,0 +1,45 @@
+<div class="dunnio-portlet">
+    <!--begin Title-->
+    <div class="dunnio-portlet__head dunnio-portlet__head--border">
+        <div class="dunnio-portlet__head-label">
+            <h3 class="dunnio-portlet__head-title">
+                Thông tin sản phẩm: {{model?.id}}
+            </h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 dunnio-align-center">
+            <img
+                class="image_detail_order_available w-50"
+                [src]="model?.images[0]"
+            >
+        </div>
+        <div class="col-md-6 row dunnio-padding-t-10">
+            <div class="col-6 dunnio-padding-t-20">Mã sản phẩm:</div>
+            <div class="col-6 dunnio-padding-t-20">
+                {{model?.id}}
+            </div>
+            <div class="col-6 dunnio-padding-t-20">Mã vải:</div>
+            <div class="col-6 dunnio-padding-t-20">
+                {{model?.fabric?.name || 'Chưa cập nhật'}}
+            </div>
+            <div class="col-6 dunnio-padding-t-20">Danh mục sản phẩm:</div>
+            <div class="col-6 dunnio-padding-t-20">
+                {{model?.category_name || 'Chưa cập nhật'}}
+            </div>
+            <div class="col-6 dunnio-padding-t-20">Thương hiệu:</div>
+            <div class="col-6 dunnio-padding-t-20">
+                {{model?.properties?.brand || 'Chưa cập nhật'}}
+            </div>
+            <div class="col-6 dunnio-padding-t-20">Giá bán:</div>
+            <div class="col-6 dunnio-padding-t-20">
+                {{(model?.price | number) || '0'}}
+            </div>
+            <div class="col-6 dunnio-padding-t-20">Đơn vị:</div>
+            <div class="col-6 dunnio-padding-t-20">
+                {{model?.properties?.unit || 'Chưa cập nhật'}}
+            </div>
+        </div>
+    </div>
+    <!--end-->
+</div>

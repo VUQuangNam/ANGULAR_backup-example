@@ -1,0 +1,198 @@
+<div class="card">
+    <div class="card-body">
+        <form
+            class="row m-0"
+            (ngSubmit)="onEdit()"
+            autocomplete="off"
+        >
+            <div class="col-md-2">
+                <app-image-single
+                    category="customers"
+                    [image]="model?.avatar"
+                    (callback)="handleImageCallback($event)"
+                >
+                </app-image-single>
+            </div>
+            <div class="col-md-10">
+                <div class="form-group row">
+                    <label class="col-lg-2 col-form-label-md text-left">Loại khách hàng:</label>
+                    <div class="col-lg-4">
+                        <div class="c-radio-inline">
+                            <label class="c-radio c-radio--success">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="individual"
+                                    [(ngModel)]="model.type"
+                                    disabled
+                                />
+                                Khách hàng
+                                <span></span>
+                            </label>
+                            <label class="c-radio c-radio--success">
+                                <input
+                                    type="radio"
+                                    name="type"
+                                    value="company"
+                                    [(ngModel)]="model.type"
+                                    disabled
+                                />
+                                Doanh nghiệp
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Người giới thiệu:</label>
+                    <div class="col-lg-4">
+                        <input
+                            name="friend"
+                            class="form-control"
+                            [(ngModel)]="model.friend"
+                            [disabled]="true"
+                        />
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Tên khách hàng:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="name"
+                            class="form-control"
+                            [(ngModel)]="model.name"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Chi nhánh:</label>
+                    <div class="col-lg-4">
+                        <input
+                            name="store"
+                            class="form-control"
+                            [(ngModel)]="store.name"
+                            [disabled]="true"
+                        />
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Số điện thoại:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            [(ngModel)]="model.phone"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Nguồn khách hàng:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="source"
+                            class="form-control"
+                            [(ngModel)]="model.source"
+                        >
+                            <option
+                                [value]="source.id"
+                                *ngFor="let source of sources"
+                            >
+                                {{ source?.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Địa chỉ:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            [(ngModel)]="model.address"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Mối quan hệ:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="relation"
+                            class="form-control"
+                            [(ngModel)]="model.relation"
+                        >
+                            <option
+                                [value]="relation.id"
+                                *ngFor="let relation of relations"
+                            >
+                                {{ relation?.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Email:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="email"
+                            class="form-control"
+                            [(ngModel)]="model.email"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Rank:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="rank_id"
+                            class="form-control"
+                            [disabled]="true"
+                        >
+                            <option>
+                                {{ model?.rank_id }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Sinh nhật:</label>
+                    <div class="col-lg-4">
+                        <input
+                            bsDatepicker
+                            name="birthday"
+                            class="form-control"
+                            [bsConfig]="{ dateInputFormat: 'DD/MM/YYYY' }"
+                            [(ngModel)]="model.birthday"
+                        >
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Ghi chú:</label>
+                    <div class="col-lg-4">
+                        <textarea
+                            name="note"
+                            class="form-control"
+                            [(ngModel)]="model.note"
+                        ></textarea>
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Giới tính:</label>
+                    <div class="col-lg-4">
+                        <select
+                            name="gender"
+                            class="form-control"
+                            [(ngModel)]="model.gender"
+                        >
+                            <option value="male">
+                                Nam
+                            </option>
+                            <option value="female">
+                                Nữ
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- begin:: form foot -->
+            <div
+                class="col-md-12 text-right"
+                style="border-top: 1px solid #707070; padding: 20px 0;"
+            >
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-info"
+                >
+                    Cập nhật
+                </button>
+            </div>
+            <!-- end:: form foot -->
+        </form>
+    </div>
+</div>

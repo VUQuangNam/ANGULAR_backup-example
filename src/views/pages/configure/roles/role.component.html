@@ -1,0 +1,73 @@
+<div class="c-warpper">
+    <div class="c-warpper__right">
+        <section class="c-right__header">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6>Quản lý chức vụ</h6>
+                </div>
+                <div class="col-md-8 text-right">
+                    <a
+                        class="btn btn-sm btn-danger mr-2"
+                        routerLink="/setting/roles/create"
+                    >
+                        <img src="./assets/media/icons/plus-light.svg">
+                        Thêm mới
+                    </a>
+
+                    <!-- begin:: collum dropdown -->
+                    <div
+                        dropdown
+                        [insideClick]="true"
+                        class="btn-group"
+                    >
+                        <button
+                            class="btn btn-sm btn-danger dropdown-toggle"
+                            dropdownToggle
+                        >
+                            <img
+                                class="mr-1"
+                                src="./assets/media/icons/th-light.svg"
+                            >
+                        </button>
+                        <div
+                            role="menu"
+                            style="width: 350px;"
+                            class="dropdown-menu dropdown-menu-right"
+                            *dropdownMenu
+                        >
+                            <div class="c-checkbox-list p-2">
+                                <div class="row">
+                                    <div
+                                        class="col-md-6"
+                                        *ngFor="let col of collums"
+                                    >
+                                        <label class="c-checkbox c-checkbox--success">
+                                            <input
+                                                type="checkbox"
+                                                [name]="col.id"
+                                                [checked]="col.active"
+                                                (change)="onChangeCollum(col.id)"
+                                            />
+                                            {{ col?.name }}
+                                            <span></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end:: collum dropdown-->
+                </div>
+            </div>
+        </section>
+
+        <section class="c-right__content">
+            <app-table-layout
+                [rows]="roles"
+                [collums]="collums"
+                [pageTotal]="pageTotal"
+            >
+            </app-table-layout>
+        </section>
+    </div>
+</div>

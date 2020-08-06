@@ -1,0 +1,121 @@
+<ng-container *ngFor="let group of filters">
+    <section class="c-group">
+        <div class="c-group__header">
+            <div class="c-group__header--left">
+                <h6>{{group?.title}}</h6>
+            </div>
+            <div class="c-group__header--right">
+                <a
+                    class="header-icon"
+                    *ngIf="group?.config?.create"
+                >
+                    <i class="fa fa-plus-circle"></i>
+                </a>
+                <a
+                    class="header-icon"
+                    *ngIf="group?.config?.show"
+                    (click)="group.active = !group.active"
+                >
+                    <i class="fa fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+        <div
+            class="c-group__content"
+            *ngIf="group?.active"
+        >
+            <div
+                class="form-group"
+                *ngFor="let input of group?.conditions"
+            >
+                <!-- begin:: input group-->
+                <input
+                    class="form-control"
+                    [type]="input?.type"
+                    [name]="input?.key"
+                    *ngIf="input?.type === inputTypes.INPUT_TEXT"
+                    [placeholder]="input?.lable"
+                    (change)="onChangeValue()"
+                    [(ngModel)]="model[input.key]"
+                >
+
+                <input
+                    class="form-control"
+                    [type]="input?.type"
+                    [name]="input?.key"
+                    *ngIf="input?.type === inputTypes.INPUT_NUMBER"
+                    [placeholder]="input?.lable"
+                    (change)="onChangeValue()"
+                    [(ngModel)]="model[input.key]"
+                >
+
+                <div
+                    class="c-checkbox-list"
+                    *ngIf="input?.type === inputTypes.CHECKBOX"
+                >
+                    <label
+                        class="c-checkbox c-checkbox--success"
+                        *ngFor="let item of input?.options"
+                    >
+                        <input
+                            type="checkbox"
+                            [name]="input?.key"
+                            [value]="item?.id"
+                            (change)="onChangeCheckbox($event)"
+                        />
+                        {{item?.name}}
+                        <span></span>
+                    </label>
+                </div>
+
+                <div
+                    class="c-radio-list"
+                    *ngIf="input?.type === inputTypes.RADIO"
+                >
+                    <label
+                        class="c-radio c-radio--success"
+                        *ngFor="let item of input?.options"
+                    >
+                        <input
+                            type="radio"
+                            [name]="input?.key"
+                            [value]="item?.id"
+                            (change)="onChangeRadio($event)"
+                        />
+                        {{item?.name}}
+                        <span></span>
+                    </label>
+                </div>
+                <!-- end:: input group -->
+
+                <!-- begin:: select group-->
+                <ng-select
+                    multiple="false"
+                    bindLabel="name"
+                    bindValue="id"
+                    name="input?.key"
+                    [items]="input?.options"
+                    [placeholder]="input?.lable"
+                    (change)="onChangeValue()"
+                    [(ngModel)]="model[input.key]"
+                    *ngIf="input?.type === inputTypes.SELECT_SEARCH"
+                >
+                </ng-select>
+
+                <ng-select
+                    multiple="true"
+                    bindLabel="name"
+                    bindValue="id"
+                    name="input?.key"
+                    [items]="input?.options"
+                    [placeholder]="input?.lable"
+                    (change)="onChangeValue()"
+                    [(ngModel)]="model[input.key]"
+                    *ngIf="input?.type === inputTypes.SELECT_MULTIPLE"
+                >
+                </ng-select>
+                <!-- end:: select group -->
+            </div>
+        </div>
+    </section>
+</ng-container>

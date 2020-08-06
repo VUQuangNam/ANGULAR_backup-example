@@ -1,0 +1,128 @@
+<div
+    class="dunnio-subheader dunnio-grid__item"
+    id="dunnio_subheader"
+>
+    <div class="dunnio-subheader__toolbar">
+        <div style="color: #FFFFFF;
+        opacity: 1;
+        font-size: 15px;
+        margin-top: -5px !important;
+        width: 150px;">
+            Đơn may đo tại nhà
+        </div>
+        <div class="dunnio-subheader__wrapper">
+            <!-- begin:: tab order-->
+            <a
+                class="btn btn-tab"
+                *ngFor="let tab of carts; let index = index"
+                [ngClass]="{'active': data?.name === tab?.name}"
+                (click)="onChangeTab(tab?.name)"
+            >
+                {{ tab?.name || 'Hóa Đơn ' + (index + 1) }}
+                <img
+                    class="dunnio-margin-l-10"
+                    src="./assets/media/icons/cross.svg"
+                    (click)="onRemoveCart(tab.name)"
+                >
+            </a>
+            <a
+                class="btn-tab-create"
+                (click)="generateCart()"
+            >
+                <img src="./assets/media/icons/plus-light.svg">
+            </a>
+        </div>
+    </div>
+    <div class="dunnio-subheader__toolbar">
+        <div
+            class="dunnio-subheader__wrapper"
+            style="top: -5px;"
+        >
+            <div class="dropdown">
+                <img
+                    class="dunnio-margin-l-15 dropbtn"
+                    src="./assets/media/icons/test.svg"
+                >
+                <div class="dropdown-content">
+                    <a
+                        target="_blank"
+                        href="/sale/available"
+                    >
+                        Tạo đơn bán sẵn
+                    </a>
+                    <a
+                        target="_blank"
+                        href="/sale/tailor"
+                    >
+                        Tạo đơn may đo
+                    </a>
+                    <a
+                        target="_blank"
+                        href="/sale/service"
+                    >
+                        Tạo đơn bảo hành - sửa chữa
+                    </a>
+                    <a
+                        target="_blank"
+                        href="/sale/tailor_at_home"
+                    >Tạo đơn may đo tại nhà
+                    </a>
+                    <a
+                        target="_blank"
+                        href="/sale/uniform"
+                    >
+                        Tạo đơn may đo đồng phục
+                    </a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <img
+                    class="dunnio-margin-l-15 dropbtn"
+                    src="./assets/media/icons/filled.svg"
+                >
+                <div
+                    class="dropdown-content dunnio-padding-20"
+                    style="background-color:#0A2141 ;"
+                >
+                    <div class="dunnio-padding-b-10">
+                        <h5 style="color: white;">
+                            Chọn chi nhánh
+                        </h5>
+                    </div>
+                    <select
+                        class="form-control"
+                        aria-placeholder="Chọn chi nhánh..."
+                        name="store"
+                        [(ngModel)]="data.store"
+                        #store="ngModel"
+                    >
+                        <option
+                            [value]="store"
+                            *ngFor="let store of userStores"
+                        >
+                            {{ store?.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="dropdown">
+                <img
+                    class="dunnio-margin-l-15 dunnio-margin-t-5"
+                    src="./assets/media/icons/account.svg"
+                >
+                <div class="dropdown-content dunnio-padding-20">
+                    <b>Mã nhân viên:</b>{{data.created_by.id}}
+                    <br>
+                    <br>
+                    <b>Tên nhân viên:</b> {{data.created_by.name}}
+                </div>
+            </div>
+            <a
+                href="/home"
+                class="dunnio-margin-l-15"
+            >
+                <img src="./assets/media/icons/home.svg">
+            </a>
+        </div>
+    </div>
+</div>

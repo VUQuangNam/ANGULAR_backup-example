@@ -1,0 +1,95 @@
+<div class="modal-header">
+    <h5 class="modal-title">Thông tin chi nhánh</h5>
+    <button
+        type="button"
+        class="close"
+        (click)="onClose()"
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form
+    class="validated"
+    (ngSubmit)="onUpdate()"
+    autocomplete="off"
+>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group row">
+                    <label class="col-lg-2 col-form-label-md text-left">Mã điểm:</label>
+                    <div class="col-lg-4">
+                        <input
+                            name="id"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="model.id"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Email:</label>
+                    <div class="col-lg-4">
+                        <input
+                            name="email"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="model.email"
+                        />
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Tên điểm:</label>
+                    <div class="col-lg-4">
+                        <input
+                            name="name"
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="model.name"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Địa chỉ:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="address"
+                            class="form-control"
+                            [(ngModel)]="model.address"
+                        />
+                    </div>
+
+                    <label class="col-lg-2 col-form-label-md text-left">Số điện thoại:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            [(ngModel)]="model.phone"
+                        />
+                    </div>
+                    <label class="col-lg-2 col-form-label-md text-left">Mô tả:</label>
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="description"
+                            class="form-control"
+                            [(ngModel)]="model.description"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="button"
+            class="btn btn-sm btn-danger mr-2"
+            (click)="onDelete()"
+        >
+            Xoá chi nhánh
+        </button>
+        <button
+            type="submit"
+            class="btn btn-sm btn-info"
+        >
+            Cập nhật
+        </button>
+    </div>
+</form>

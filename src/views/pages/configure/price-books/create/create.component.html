@@ -1,0 +1,83 @@
+<div class="modal-header">
+    <h5 class="modal-title">Thêm mới loại chất</h5>
+    <button
+        type="button"
+        class="close"
+        (click)="onClose()"
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<form
+    class="validated"
+    (ngSubmit)="onCreate()"
+    autocomplete="off"
+>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label> Mã loại chất: </label>
+                    <input
+                        name="id"
+                        type="text"
+                        class="form-control"
+                        placeholder="nhập mã loại chất"
+                        [(ngModel)]="model.id"
+                    />
+                </div>
+                <div class="form-group">
+                    <label> Tên hiển thị: </label>
+                    <input
+                        name="name"
+                        type="text"
+                        class="form-control"
+                        placeholder="nhập tên hiển thị"
+                        [(ngModel)]="model.name"
+                    />
+                </div>
+                <div class="form-group">
+                    <label> Mô tả: </label>
+                    <textarea
+                        name="description"
+                        type="text"
+                        class="form-control"
+                        placeholder="nhập mô tả"
+                        [(ngModel)]="model.description"
+                    ></textarea>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div
+                    class="form-group"
+                    *ngFor="let cate of model?.categories; let index = index"
+                >
+                    <label> Giá {{cate.name}}: </label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="nhập mã loại chất"
+                        name="price_{{index}}"
+                        [(ngModel)]="model.categories[index].price"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button
+            type="reset"
+            class="btn btn-sm btn-secondary mr-2"
+        >
+            <img src="./assets/media/icons/refresh-light.svg" />
+            Làm mới
+        </button>
+        <button
+            type="submit"
+            class="btn btn-sm btn-success"
+        >
+            <img src="./assets/media/icons/save-light.svg" />
+            Thêm mới
+        </button>
+    </div>
+</form>

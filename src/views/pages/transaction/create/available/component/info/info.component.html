@@ -1,0 +1,221 @@
+<div class="dunnio-portlet">
+    <div class="dunnio-portlet__body dunnio-padding-0">
+        <div class="dunnio-section">
+            <ul
+                class="nav nav-tabs nav-tabs-line nav-tabs-line-success"
+                role="tablist"
+            >
+                <li class="nav-item w-50 m-0">
+                    <a
+                        class="nav-link active"
+                        data-toggle="tab"
+                        href="#cart_tab_cusomer"
+                        role="tab"
+                    >
+                        Đơn hàng
+                    </a>
+                </li>
+                <li class="nav-item w-50">
+                    <a
+                        class="nav-link"
+                        data-toggle="tab"
+                        href="#cart_tab_extra"
+                        role="tab"
+                    >
+                        Mở rộng
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div
+                    class="tab-pane active dunnio-notification dunnio-scroll-info-item"
+                    id="cart_tab_cusomer"
+                    role="tabpanel"
+                >
+                    <!-- begin:: section customer -->
+                    <div class="dunnio-section__content dunnio-padding-10 dunnio-section__content-border-bt">
+                        <div class="form-group row">
+                            <div class="col-12 dunnio-ng-select-bottom">
+                                <ng-select
+                                    (search)="onSearchCustomer($event.term)"
+                                    [items]="customers"
+                                    (change)="onSelectCustomer($event)"
+                                    (clear)="onRemoveCustomer()"
+                                    placeholder="tìm kiếm khách hàng..."
+                                    bindLabel="fullText"
+                                    name="customer"
+                                    [loading]="loading.customer"
+                                    [(ngModel)]="data.customer"
+                                >
+                                    <ng-template
+                                        ng-label-tmp
+                                        ng-option-tmp
+                                        let-item="item"
+                                    >
+                                        <a href="javascript:;">
+                                            {{ item.name }} {{ item.phone }}
+                                        </a>
+                                    </ng-template>
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="data.customer"
+                            class="row"
+                        >
+                            <div class="col-6">
+                                Điểm tích lũy:{{data?.customer?.total_point | number}}
+                            </div>
+                            <div class="col-6">
+                                Công nợ: {{data?.customer?.total_debt | number}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dunnio-section__content dunnio-padding-10">
+                        <div class="form-group row">
+                            <label class="col-7 col-form-label">
+                                Chọn nguồn đơn hàng
+                            </label>
+                            <div class="col-5">
+                                <select
+                                    class="form-control"
+                                    name="source"
+                                    aria-placeholder="source"
+                                    [(ngModel)]="data.source"
+                                    #source="ngModel"
+                                >
+                                    <option
+                                        [value]="source.id"
+                                        *ngFor="let source of sources"
+                                    >
+                                        {{ source?.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-7 col-form-label">
+                                Tổng tiền hàng: ({{data?.total_quantity}} SP)
+                            </label>
+                            <div class="col-5">
+                                <label class="col-form-label col-lable-price">
+                                    {{(data?.total_before_discount | number) || 0}}đ
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-7 col-form-label">
+                                Giảm giá:
+                            </label>
+                            <div class="col-5 dunnio-align-right">
+                                <button
+                                    class="btn dunnio-section__content-w-100"
+                                    data-toggle="modal"
+                                    data-target="#dunnio_modal_discount_order"
+                                >
+                                    {{(data?.total_discount | number) || 0}}đ
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-7 col-form-label dunnio-section__content-title-price">
+                                <b>Khách cần trả:</b>
+                            </label>
+                            <div class="col-5">
+                                <label class="col-form-label col-lable-price dunnio-section__content-price">
+                                    {{(data?.total_price < 0 || !data?.total_price) 
+                                            ? 0
+                                            : data?.total_price | number}}đ
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-5 col-form-label">
+                                Khách thanh toán:
+                            </label>
+                            <button
+                                class="col-2 btn"
+                                style="box-shadow:0px 0px 0px white;"
+                                data-toggle="modal"
+                                data-target="#dunnio_modal_payment_order"
+                            >
+                                <img src="./assets/media/icons/credit-card-dark.svg" />
+                            </button>
+                            <div class="col-5">
+                                <label class="col-form-label col-lable-price">
+                                    {{(data?.total_paid | number) || 0}}đ
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-7 col-form-label">Tiền thừa trả khách: </label>
+                            <div class="col-5">
+                                <label class="col-form-label col-lable-price">
+                                    {{((data?.total_paid - data?.total_price) < 0 ||!(data?.total_paid - data?.total_price) ) 
+                                        ? 0
+                                        : (data?.total_paid - data?.total_price ) | number}}đ
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-7 col-form-label">
+                                <b>Công nợ:</b>
+                            </label>
+                            <div class="col-5">
+                                <label class="col-form-label col-lable-price dunnio-font-danger">
+                                    {{(data?.total_unpaid | number) || 0}}đ
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="tab-pane dunnio-scroll-info-item"
+                    id="cart_tab_extra"
+                    role="tabpanel"
+                >
+                    <div class="dunnio-section__content dunnio-padding-10">
+                        <div class="form-group row">
+                            <div class="col-12 mb-3">
+                                <textarea
+                                    class="form-control"
+                                    rows="1"
+                                    placeholder="Nhập ghi chú khách hàng..."
+                                    name="note.customer"
+                                    [(ngModel)]="data.note.customer"
+                                    #note.customer="ngModel"
+                                ></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-12">
+                                <textarea
+                                    class="form-control"
+                                    rows="1"
+                                    placeholder="Nhập ghi chú nội bộ..."
+                                    name="note.system"
+                                    [(ngModel)]="data.note.system"
+                                    #note.system="ngModel"
+                                ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end::Section Detail-->
+    </div>
+
+    <div class="dunnio-portlet__foot">
+        <div class="dunnio-form__actions">
+            <button
+                type="button"
+                class="btn btn-success"
+                style="width: 100%; border-radius: 0px;"
+                (click)="onConfirmCartInfo()"
+            >
+                Tạo Đơn Hàng
+            </button>
+        </div>
+    </div>
+</div>

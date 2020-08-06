@@ -1,0 +1,138 @@
+@import "../../../../assets/sass/style.core.scss";
+
+:host {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.c-wrapper {
+    background: url(../../../../assets/media/images/bg-login2x.png) no-repeat center center/cover;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 100vh;
+    padding-left: 1rem;
+    padding-right: 1rem;
+
+    .c-login {
+        padding: 0 2rem;
+        margin-right: 1rem;
+        width: 30%;
+        text-align: center;
+
+        &__logo {
+            width: 40%;
+            margin-bottom: 1rem;
+        }
+
+        &__title {
+            color: c-base-color(light, 2);
+        }
+
+        &__link {
+            display: block;
+            text-decoration: none;
+            color: c-base-color(light, 2);
+            text-align: end;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        &__form {
+            margin-top: 1.5rem;
+            .form-input {
+                border-radius: 28px;
+                outline: none;
+                border-bottom: 0;
+
+                &:focus {
+                    border-bottom: 0;
+                }
+            }
+        }
+
+        &__btn {
+            border-radius: 28px;
+            background-color: c-base-color(danger, 2);
+            color: c-base-color(light, 2);
+            display: block;
+            margin: 1rem auto;
+            min-width: 200px;
+
+            &:target {
+                border: none;
+            }
+        }
+    }
+}
+
+@include c-media-below(lg) {
+
+    .c-wrapper {
+        .c-login {
+            padding: 0 1rem;
+            margin-right: .5rem;
+
+            &__logo {
+                margin-bottom: .5rem;
+            }
+
+            &__btn {
+                min-width: 190px;
+            }
+        }
+    }
+}
+
+
+@include c-media-below(md) {
+    .c-wrapper {
+        background: url(../../../../assets/media/images/bg-login.png) no-repeat center center/cover;
+
+        .c-login {
+            padding: 0;
+            margin-right: .5rem;
+
+            &__logo {
+                width: 50%;
+                margin-bottom: .5rem;
+            }
+
+            &__btn {
+                min-width: 170px;
+            }
+        }
+    }
+}
+
+@include c-media-below(sm) {
+    .c-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        .c-login {
+            width: 100%;
+            text-align: center;
+
+            &__logo {
+                width: 40%;
+            }
+
+            &__btn {
+                border-radius: 28px;
+                background-color: c-base-color(danger, 2);
+                color: c-base-color(light, 2);
+                display: block;
+                margin: 1rem auto;
+                min-width: 160px;
+            }
+        }
+    }
+}

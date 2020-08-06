@@ -1,0 +1,22 @@
+<ng-container>
+    <!-- begin:: header component -->
+    <div class="c-header">
+        <c-header-top></c-header-top>
+        <c-header-bottom></c-header-bottom>
+    </div>
+    <!-- end:: header component -->
+
+    <!-- begin:: content -->
+    <div class="c-container">
+        <router-outlet></router-outlet>
+    </div>
+    <!-- end:: content -->
+
+    <!-- begin:: loading -->
+    <div class="c-loading c-loading--hidden">
+        <div class="c-loading__status spinner-border m-5" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- end:: loading -->
+</ng-container>

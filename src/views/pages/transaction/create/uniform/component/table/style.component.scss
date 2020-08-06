@@ -1,0 +1,76 @@
+.dunnio-item-product-uniform {
+    position: fixed;
+    width: calc(75% - 5px);
+    bottom: 0px;
+    background-color: white;
+    max-height: calc(50%);
+
+    .dunnio-item-product-uniform-title {
+        background-color: #16335b;
+        color: white;
+    }
+
+    .dunnio-item-product-uniform-table {
+        background-color: white;
+        color: #000;
+        overflow-x: auto;
+        max-height:250px
+    }
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.upload-btn-wrapper input[type="file"] {
+    font-size: 6px;
+    position: absolute;
+    left: -15px;
+    top: -10px;
+    opacity: 0;
+    height: 37px;
+    width: 154px;
+}
+
+.dunnio-width-table-5 {
+    width: 5%;
+}
+
+.dunnio-width-table-10 {
+    width: 10%;
+}
+
+.dunnio-width-table-customer {
+    display: block;
+    overflow: auto;
+
+    @media screen and (min-width: 1200px) {
+        height: 520px;
+    }
+
+    @media screen and (min-width: 1800px) {
+        height: 945px;
+    }
+}
+
+.btn-detail {
+    background-color: #01A4A4;
+    width: 95px;
+    height: 32px;
+    background: #01A4A4 0% 0% no-repeat padding-box;
+    border-radius: 16px;
+    opacity: 1;
+    color: white;
+}
+
+.btn-detail:hover {
+    background-color: #01A4A4;
+    width: 95px;
+    height: 32px;
+    background: #01A4A4 0% 0% no-repeat padding-box;
+    border-radius: 16px;
+    opacity: 1;
+    color: white;
+}
